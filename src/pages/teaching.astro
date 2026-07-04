@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+
+const pipeline = ['OLTP', 'CDC', 'Kafka', 'Stream processing', 'Real-time OLAP', 'API'];
+const stack = [
+  'PostgreSQL', 'CockroachDB', 'DuckDB', 'Apache Kafka', 'PySpark',
+  'Apache Flink', 'ClickHouse', 'FastAPI', 'Schema Registry', 'Grafana',
+];
+const stats = [
+  { n: '12', l: 'lessons' },
+  { n: '3h', l: 'per lesson' },
+  { n: '1 : 2', l: 'theory : hands-on' },
+];
+const repo = 'https://github.com/haro-ca/real-time-data-processing-class';
+---
+
+<Base
+  title="Teaching — Carlos Alberto Haro"
+  description="Teaching by Carlos Alberto Haro — a 12-lesson Real-Time Data Processing course (OLTP → CDC → Kafka → stream processing → real-time OLAP → API), plus AI-enablement workshops."
+  path="/teaching"
+>
+  <section class="page">
+    <header class="rule-top">
+      <a class="brand link" href="/">
+        <svg class="brand-mark" viewBox="0 0 64 40" aria-hidden="true">
+          <rect x="2" y="26" width="10" height="12" rx="1.5"></rect>
+          <rect x="18" y="16" width="10" height="22" rx="1.5"></rect>
+          <rect x="34" y="8" width="10" height="30" rx="1.5"></rect>
+          <rect x="50" y="2" width="10" height="36" rx="1.5"></rect>
+        </svg>
+        <span class="strong">h1sort.com</span>
+      </a>
+      <span>03 · Teaching</span>
+    </header>
+
+    <div class="page-content">
+      <span class="acid-label reveal d1">Teaching</span>
+      <h1 class="page-title reveal d2">From one node to a <span class="ital">streaming pipeline</span>.</h1>
+      <p class="page-lede reveal d3">
+        Courses and workshops on the systems I build with — taught from first
+        principles, then broken and rebuilt by hand.
+      </p>
+
+      <!-- Featured course -->
+      <article class="course reveal d4">
+        <div class="course-head">
+          <span class="course-eyebrow">Course · Hands-on</span>
+          <a class="btn" href={repo} target="_blank" rel="noopener noreferrer">
+            View on GitHub <span class="arrow">→</span>
+          </a>
+        </div>
+        <h2 class="course-title">Real-Time Data Processing</h2>
+        <p class="course-desc">
+          A 12-lesson course that starts with a single Postgres node and ends with a
+          full streaming pipeline. Each lesson runs three hours — roughly one hour of
+          theory and two hours of building, benchmarking, and breaking things.
+        </p>
+
+        <div class="pipeline">
+          {pipeline.map((p, i) => (
+            <>
+              <span class="pipe-node">{p}</span>
+              {i < pipeline.length - 1 && <span class="pipe-arrow">→</span>}
+            </>
+          ))}
+        </div>
+
+        <div class="stats">
+          {stats.map((s) => (
+            <div class="stat">
+              <span class="stat-n">{s.n}</span>
+              <span class="stat-l">{s.l}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="stack">
+          <span class="stack-label">Stack</span>
+          <ul class="tags">
+            {stack.map((t) => <li class="tag">{t}</li>)}
+          </ul>
+        </div>
+      </article>
+
+      <!-- Enablement -->
+      <article class="enable reveal d5">
+        <span class="enable-label">Enablement &amp; workshops</span>
+        <p class="enable-body">
+          At <strong>Santander</strong> I taught <strong>300+ employees</strong> across
+          6 bank areas on agent harnesses (ChatGPT, Copilot, Claude, Windsurf, Devin,
+          Cortex), and shipped <strong>1 MCP + 1 skill</strong> now used by 50+ engineers.
+        </p>
+      </article>
+    </div>
+
+    <footer class="rule-bottom">
+      <span class="strong">Carlos Alberto Haro López</span>
+      <a class="link" href="/">← Back to landing</a>
+    </footer>
+  </section>
+</Base>
+
+<style>
+  .page {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--page-padding);
+    background:
+      radial-gradient(circle at 90% 8%, rgba(200, 255, 62, 0.20) 0%, transparent 44%),
+      radial-gradient(circle at 4% 98%, rgba(200, 255, 62, 0.10) 0%, transparent 46%),
+      var(--bg);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 0.6em; }
+  .brand-mark { width: 1.6em; height: 1em; fill: var(--ink); }
+  .ital { font-style: italic; font-weight: 400; }
+
+  .page-content { position: relative; z-index: 2; max-width: 980px; width: 100%; margin: 0 auto; }
+  .page-title {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: clamp(2rem, 6vw, 4.5rem); line-height: 0.94; letter-spacing: -0.03em;
+    margin: clamp(1rem, 2.5vh, 1.6rem) 0 clamp(0.8rem, 2vh, 1.2rem);
+    font-variation-settings: "opsz" 144; max-width: 18ch;
+  }
+  .page-lede {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: var(--tagline-size); line-height: 1.5; color: var(--muted); max-width: 52ch;
+  }
+
+  /* Featured course card */
+  .course {
+    margin-top: clamp(1.8rem, 4vh, 3rem);
+    border: 1px solid var(--rule);
+    background: rgba(236, 229, 215, 0.55);
+    backdrop-filter: blur(4px);
+    padding: clamp(1.4rem, 3vw, 2.4rem);
+    display: flex; flex-direction: column; gap: clamp(0.9rem, 2vh, 1.3rem);
+  }
+  .course-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .course-eyebrow { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.16em; text-transform: uppercase; color: var(--acid-deep); }
+  .course-title { font-family: var(--font-serif); font-weight: 900; font-size: clamp(1.6rem, 3.6vw, 2.8rem); letter-spacing: -0.025em; line-height: 1; }
+  .course-desc { font-size: var(--body-size); color: var(--muted); line-height: 1.6; max-width: 62ch; }
+
+  .pipeline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem; }
+  .pipe-node {
+    font-family: var(--font-mono); font-size: clamp(0.68rem, 1vw, 0.8rem);
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+    border: 1px solid var(--ink); padding: 0.35rem 0.6rem; background: var(--bg);
+  }
+  .pipe-arrow { color: var(--acid-deep); font-family: var(--font-mono); }
+
+  .stats { display: flex; gap: clamp(1.4rem, 4vw, 3rem); padding: clamp(0.6rem, 1.5vh, 1rem) 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .stat { display: flex; flex-direction: column; gap: 0.15rem; }
+  .stat-n { font-family: var(--font-serif); font-weight: 900; font-size: clamp(1.6rem, 3.5vw, 2.6rem); color: var(--ink); line-height: 1; }
+  .stat-l { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+  .stack { display: flex; flex-direction: column; gap: 0.6rem; }
+  .stack-label { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag { font-family: var(--font-mono); font-size: clamp(0.68rem, 0.9vw, 0.78rem); color: var(--ink-soft); background: var(--bg-warm); padding: 0.3rem 0.55rem; }
+
+  /* Enablement */
+  .enable { margin-top: clamp(1.2rem, 2.5vh, 1.8rem); border-left: 2px solid var(--acid-deep); padding-left: clamp(1rem, 2vw, 1.4rem); }
+  .enable-label { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.4rem; }
+  .enable-body { font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: var(--tagline-size); line-height: 1.5; color: var(--muted); max-width: 60ch; }
+  .enable-body strong { font-style: normal; font-weight: 600; color: var(--ink); }
+
+  @media (max-width: 560px) {
+    .page-lede, .course-desc { max-width: none; }
+    .course-head .btn { width: 100%; justify-content: center; }
+  }
+</style>

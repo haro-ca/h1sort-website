@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+
+const streams = [
+  {
+    k: 'A',
+    title: 'Blog',
+    href: '/blog',
+    meta: 'Notes · essays',
+    desc: 'Field notes and essays — data, AI agents, and the craft of shipping products. Short, frequent, practical.',
+  },
+  {
+    k: 'B',
+    title: 'Research',
+    href: '/research',
+    meta: 'Projects · write-ups',
+    desc: 'Deeper write-ups and projects — matrix multiplication, systems experiments, and things worth a longer read.',
+  },
+];
+---
+
+<Base
+  title="Writing — Carlos Alberto Haro"
+  description="Writing by Carlos Alberto Haro — a blog of field notes & essays, and deeper research write-ups on data, AI and systems."
+  path="/writing"
+>
+  <section class="page">
+    <header class="rule-top">
+      <a class="brand link" href="/">
+        <svg class="brand-mark" viewBox="0 0 64 40" aria-hidden="true">
+          <rect x="2" y="26" width="10" height="12" rx="1.5"></rect>
+          <rect x="18" y="16" width="10" height="22" rx="1.5"></rect>
+          <rect x="34" y="8" width="10" height="30" rx="1.5"></rect>
+          <rect x="50" y="2" width="10" height="36" rx="1.5"></rect>
+        </svg>
+        <span class="strong">h1sort.com</span>
+      </a>
+      <span>02 · Writing</span>
+    </header>
+
+    <div class="page-content">
+      <span class="acid-label reveal d1">Writing</span>
+      <h1 class="page-title reveal d2">Words &amp; <span class="ital">work</span>.</h1>
+      <p class="page-lede reveal d3">
+        Two streams — quick field notes and essays on the blog, and deeper
+        research write-ups worth a longer read.
+      </p>
+
+      <div class="streams">
+        {streams.map((s, i) => (
+          <a class={`stream reveal d${4 + i}`} href={s.href}>
+            <span class="stream-k">{s.k}</span>
+            <span class="stream-body">
+              <span class="stream-top">
+                <span class="stream-title">{s.title}</span>
+                <span class="stream-meta">{s.meta}</span>
+              </span>
+              <span class="stream-desc">{s.desc}</span>
+            </span>
+            <span class="stream-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <footer class="rule-bottom">
+      <span class="strong">Carlos Alberto Haro López</span>
+      <a class="link" href="/">← Back to landing</a>
+    </footer>
+  </section>
+</Base>
+
+<style>
+  .page {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--page-padding);
+    background:
+      radial-gradient(circle at 88% 10%, rgba(200, 255, 62, 0.22) 0%, transparent 44%),
+      radial-gradient(circle at 4% 96%, rgba(200, 255, 62, 0.12) 0%, transparent 46%),
+      var(--bg);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 0.6em; }
+  .brand-mark { width: 1.6em; height: 1em; fill: var(--ink); }
+  .ital { font-style: italic; font-weight: 400; }
+
+  .page-content { position: relative; z-index: 2; max-width: 1100px; width: 100%; margin: 0 auto; }
+  .page-title {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: var(--display-size); line-height: 0.9; letter-spacing: -0.03em;
+    margin: clamp(1rem, 2.5vh, 1.6rem) 0 clamp(0.8rem, 2vh, 1.2rem);
+    font-variation-settings: "opsz" 144;
+  }
+  .page-lede {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: var(--tagline-size); line-height: 1.5; color: var(--muted); max-width: 48ch;
+  }
+
+  .streams {
+    margin-top: clamp(2rem, 5vh, 3.5rem);
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--ink);
+  }
+  .stream {
+    display: flex; gap: clamp(0.9rem, 2vw, 1.5rem);
+    padding: clamp(1.4rem, 3vh, 2.2rem) clamp(1.2rem, 2vw, 2rem) clamp(1.4rem, 3vh, 2.2rem) 0;
+    border-right: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.35s var(--ease);
+  }
+  .stream:last-child { border-right: none; padding-right: 0; padding-left: clamp(1.2rem, 2vw, 2rem); }
+  .stream::before {
+    content: ''; position: absolute; top: -1px; left: 0;
+    width: 0; height: 2px; background: var(--acid-deep);
+    transition: width 0.4s var(--ease);
+  }
+  .stream:hover::before { width: 100%; }
+  .stream-k {
+    font-family: var(--font-serif); font-style: italic; font-weight: 900;
+    font-size: clamp(1.4rem, 3vw, 2.4rem); color: var(--acid-deep); line-height: 1;
+  }
+  .stream-body { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+  .stream-top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .stream-title { font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 2.2rem); letter-spacing: -0.02em; }
+  .stream-meta { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .stream-desc { font-size: clamp(0.85rem, 1.1vw, 1rem); color: var(--muted); line-height: 1.5; max-width: 34ch; }
+  .stream-arrow { font-family: var(--font-mono); color: var(--acid-deep); align-self: flex-start; transition: transform 0.35s var(--ease); }
+  .stream:hover .stream-arrow { transform: translate(4px, -4px); }
+
+  @media (max-width: 720px) {
+    .streams { grid-template-columns: 1fr; }
+    .stream { border-right: none; padding-left: 0; padding-right: 0; border-bottom: 1px solid var(--rule); }
+    .stream:last-child { border-bottom: none; padding-left: 0; }
+    .page-lede { max-width: none; }
+  }
+</style>

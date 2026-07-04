@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 
 const nav = [
   { n: '01', title: 'Curriculum', href: '/cv', desc: 'An animated walk through 8+ years across the data lifecycle.' },
-  { n: '02', title: 'Research', href: '/research', desc: 'Active & past projects — real-time data, matmul, systems.' },
-  { n: '03', title: 'Writing', href: '/blog', desc: 'Notes on data, AI agents, and shipping products.' },
+  { n: '02', title: 'Writing', href: '/writing', desc: 'Essays & field notes, and deeper research write-ups.' },
+  { n: '03', title: 'Teaching', href: '/teaching', desc: 'Courses & workshops — real-time data and AI enablement.' },
   { n: '04', title: 'Contact', href: '/contact', desc: 'Email, socials, and how to reach me.' },
 ];
 ---
@@ -220,6 +220,7 @@ const nav = [
   .index {
     position: relative;
     z-index: 2;
+    --ip: clamp(1.1rem, 1.8vw, 1.9rem);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border-top: 1px solid var(--ink);
@@ -228,12 +229,13 @@ const nav = [
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: clamp(1rem, 2vh, 1.5rem) clamp(1rem, 1.5vw, 1.4rem) clamp(1rem, 2vh, 1.4rem) 0;
+    padding: clamp(1rem, 2vh, 1.5rem) var(--ip);
     border-right: 1px solid var(--rule);
     position: relative;
     transition: background 0.35s var(--ease);
   }
-  .index-item:last-child { border-right: none; }
+  .index-item:first-child { padding-left: 0; }
+  .index-item:last-child { border-right: none; padding-right: 0; }
   .index-item::before {
     content: '';
     position: absolute;
@@ -277,12 +279,14 @@ const nav = [
     .hero-content { grid-template-columns: 1fr; gap: clamp(1.5rem, 4vh, 2.5rem); }
     .viz { order: 2; }
     .index { grid-template-columns: repeat(2, 1fr); }
-    .index-item:nth-child(2) { border-right: none; }
+    .index-item { padding-left: var(--ip); padding-right: var(--ip); border-right: 1px solid var(--rule); }
+    .index-item:nth-child(odd) { padding-left: 0; }
+    .index-item:nth-child(even) { padding-right: 0; border-right: none; }
     .index-item:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
   }
   @media (max-width: 560px) {
     .index { grid-template-columns: 1fr; }
-    .index-item { border-right: none; border-bottom: 1px solid var(--rule); padding-right: 0; }
+    .index-item { border-right: none; border-bottom: 1px solid var(--rule); padding-left: 0; padding-right: 0; }
     .index-item:last-child { border-bottom: none; }
     .hero-tagline { max-width: none; }
   }

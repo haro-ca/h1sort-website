@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 
 const channels = [
   { label: 'Email', value: 'haro_ca@outlook.com', href: 'mailto:haro_ca@outlook.com' },
-  { label: 'Phone', value: '+52 55 4985 5334', href: 'tel:+525549855334' },
   { label: 'GitHub', value: 'github.com/haro-ca', href: 'https://github.com/haro-ca' },
   { label: 'Location', value: 'Mexico City, Mexico', href: null },
 ];
@@ -11,7 +10,7 @@ const channels = [
 
 <Base
   title="Contact — Carlos Alberto Haro"
-  description="Get in touch with Carlos Alberto Haro — email, phone, GitHub, and location."
+  description="Get in touch with Carlos Alberto Haro — email, GitHub, and location."
   path="/contact"
 >
   <section class="contact">
@@ -109,6 +108,7 @@ const channels = [
     border-right: 1px solid var(--rule);
   }
   .channel:nth-child(2n) { border-right: none; padding-right: 0; }
+  .channel:last-child { border-right: none; }
   .channel-label {
     font-family: var(--font-mono);
     font-size: var(--label-size);

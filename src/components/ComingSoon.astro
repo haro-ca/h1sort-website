@@ -1,11 +1,22 @@
 ---
 export interface Props {
-  n: string;
   section: string;
   title: string;
   blurb: string;
+  tag?: string;
+  back?: string;
+  backLabel?: string;
+  status?: string;
 }
-const { n, section, title, blurb } = Astro.props;
+const {
+  section,
+  title,
+  blurb,
+  tag = '',
+  back = '/',
+  backLabel = 'Back to landing',
+  status = 'In progress — building this out next',
+} = Astro.props;
 ---
 
 <section class="cs">
@@ -19,7 +30,7 @@ const { n, section, title, blurb } = Astro.props;
       </svg>
       <span class="strong">h1sort.com</span>
     </a>
-    <span>{n} / 04</span>
+    <span>{tag}</span>
   </header>
 
   <div class="cs-content">
@@ -27,9 +38,9 @@ const { n, section, title, blurb } = Astro.props;
     <h1 class="cs-title reveal d2">{title}</h1>
     <p class="cs-blurb reveal d3">{blurb}</p>
     <div class="cs-status reveal d4">
-      <span class="cs-dot"></span> In progress — building this out next
+      <span class="cs-dot"></span> {status}
     </div>
-    <a class="btn reveal d5" href="/"><span class="arrow">←</span> Back to landing</a>
+    <a class="btn reveal d5" href={back}><span class="arrow">←</span> {backLabel}</a>
   </div>
 
   <footer class="rule-bottom">
