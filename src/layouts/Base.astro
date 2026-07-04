@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import AskWidget from '../components/AskWidget.astro';
 
 export interface Props {
   title?: string;
@@ -73,6 +74,7 @@ const person = {
   <body>
     <div class="grain" aria-hidden="true"></div>
     <slot />
+    <AskWidget />
 
     <script>
       // Global reveal-on-scroll observer for any [class~="reveal"] element.

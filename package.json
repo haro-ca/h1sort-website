@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "prebuild": "node scripts/cv-pdf.mjs",
+    "prebuild": "node scripts/build-chat-context.mjs && node scripts/cv-pdf.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

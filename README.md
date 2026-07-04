@@ -18,6 +18,7 @@ An editorial, animation-rich site built with [Astro](https://astro.build/) and d
 | Fonts | Self-hosted woff2 (`public/fonts/` + `src/styles/fonts.css`) — Fraunces, IBM Plex Mono, Work Sans. Re-mirror with `node scripts/mirror-fonts.mjs` if families/weights change |
 | SEO | Per-page meta + Open Graph via the `Base` layout; `@astrojs/sitemap` |
 | Hosting | Cloudflare Pages (project `h1sort`) |
+| Assistant | "Ask" chat widget → Pages Function `/api/chat` → Claude Haiku (`claude-haiku-4-5`), streaming SSE. Grounded in `src/data/cv.md` via generated `functions/site-context.ts` |
 | Runtime | Node 24, npm |
 
 No client framework — interactivity (the sorting-canvas hero, the CV slide deck) is vanilla TypeScript in Astro `<script>` blocks.
@@ -123,6 +124,8 @@ Blog (Markdown content collections + RSS) and the Research write-ups are planned
 Deployed to **Cloudflare Pages** (project `h1sort`, production branch `main`), **git-connected**: pushing to `main` triggers a CI build (`npm run build`, output `dist/`) and deploy.
 
 CI has no Chrome, so it can't regenerate the CV PDF — the committed `public/cv.pdf` ships as-is. After editing `src/data/cv.md`, run `npm run build` locally and commit the regenerated PDF with your change.
+
+The site assistant needs the `ANTHROPIC_API_KEY` secret on the Pages project (`wrangler pages secret put ANTHROPIC_API_KEY --project-name h1sort`); locally it reads `.dev.vars` (gitignored). Test functions locally with `npm run build && npx wrangler pages dev dist`.
 
 Manual deploy (fallback, bypasses CI):
 
