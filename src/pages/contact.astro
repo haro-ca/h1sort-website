@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+
+const channels = [
+  { label: 'Email', value: 'haro_ca@outlook.com', href: 'mailto:haro_ca@outlook.com' },
+  { label: 'Phone', value: '+52 55 4985 5334', href: 'tel:+525549855334' },
+  { label: 'GitHub', value: 'github.com/haro-ca', href: 'https://github.com/haro-ca' },
+  { label: 'Location', value: 'Mexico City, Mexico', href: null },
+];
+---
+
+<Base
+  title="Contact — Carlos Alberto Haro"
+  description="Get in touch with Carlos Alberto Haro — email, phone, GitHub, and location."
+  path="/contact"
+>
+  <section class="contact">
+    <header class="rule-top">
+      <a class="brand link" href="/">
+        <svg class="brand-mark" viewBox="0 0 64 40" aria-hidden="true">
+          <rect x="2" y="26" width="10" height="12" rx="1.5"></rect>
+          <rect x="18" y="16" width="10" height="22" rx="1.5"></rect>
+          <rect x="34" y="8" width="10" height="30" rx="1.5"></rect>
+          <rect x="50" y="2" width="10" height="36" rx="1.5"></rect>
+        </svg>
+        <span class="strong">h1sort.com</span>
+      </a>
+      <span>04 / 04</span>
+    </header>
+
+    <div class="contact-content">
+      <span class="acid-label reveal d1">Contact</span>
+      <h1 class="contact-title reveal d2">Let's <span class="marker">build</span> something.</h1>
+      <p class="contact-blurb reveal d3">
+        Data &amp; AI product work, solutions engineering, speaking, or a good
+        problem to sort — reach out through any of the channels below.
+      </p>
+
+      <div class="channels">
+        {channels.map((c, i) => (
+          <div class={`channel reveal d${4 + i}`}>
+            <span class="channel-label">{c.label}</span>
+            {c.href ? (
+              <a class="channel-value link" href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{c.value}</a>
+            ) : (
+              <span class="channel-value">{c.value}</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <footer class="rule-bottom">
+      <span class="strong">Carlos Alberto Haro López</span>
+      <a class="link" href="/">← Back to landing</a>
+    </footer>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--page-padding);
+    background:
+      radial-gradient(circle at 90% 10%, rgba(200, 255, 62, 0.24) 0%, transparent 44%),
+      radial-gradient(circle at 4% 98%, rgba(200, 255, 62, 0.12) 0%, transparent 46%),
+      var(--bg);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 0.6em; }
+  .brand-mark { width: 1.6em; height: 1em; fill: var(--ink); }
+
+  .contact-content { position: relative; z-index: 2; max-width: 60ch; }
+  .contact-title {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: var(--display-size);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: clamp(1rem, 2.5vh, 1.6rem) 0 clamp(1rem, 2vh, 1.4rem);
+    font-variation-settings: "opsz" 144;
+  }
+  .contact-blurb {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: var(--tagline-size);
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 44ch;
+  }
+  .channels {
+    margin-top: clamp(1.8rem, 4vh, 3rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--ink);
+    max-width: 640px;
+  }
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: clamp(1rem, 2.2vh, 1.5rem) clamp(1rem, 2vw, 1.6rem) clamp(1rem, 2.2vh, 1.5rem) 0;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+  .channel:nth-child(2n) { border-right: none; padding-right: 0; }
+  .channel-label {
+    font-family: var(--font-mono);
+    font-size: var(--label-size);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .channel-value {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    width: fit-content;
+  }
+  @media (max-width: 560px) {
+    .channels { grid-template-columns: 1fr; }
+    .channel { border-right: none; padding-right: 0; }
+  }
+</style>

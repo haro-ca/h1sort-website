@@ -1,0 +1,516 @@
+---
+import Base from '../layouts/Base.astro';
+
+const nav = [
+  { n: '01', title: 'Curriculum', href: '/cv', desc: 'An animated walk through 8+ years across the data lifecycle.' },
+  { n: '02', title: 'Research', href: '/research', desc: 'Active & past projects — real-time data, matmul, systems.' },
+  { n: '03', title: 'Writing', href: '/blog', desc: 'Notes on data, AI agents, and shipping products.' },
+  { n: '04', title: 'Contact', href: '/contact', desc: 'Email, socials, and how to reach me.' },
+];
+---
+
+<Base>
+  <main class="hero">
+    <header class="rule-top">
+      <span class="brand">
+        <svg class="brand-mark" viewBox="0 0 64 40" aria-hidden="true">
+          <rect x="2" y="26" width="10" height="12" rx="1.5"></rect>
+          <rect x="18" y="16" width="10" height="22" rx="1.5"></rect>
+          <rect x="34" y="8" width="10" height="30" rx="1.5"></rect>
+          <rect x="50" y="2" width="10" height="36" rx="1.5"></rect>
+        </svg>
+        <span class="strong">h1sort.com</span>
+      </span>
+      <span>Mexico City · MMXXVI</span>
+    </header>
+
+    <div class="hero-content">
+      <div class="hero-lead">
+        <span class="acid-label reveal d1">Data &amp; Analytics · AI</span>
+
+        <h1 class="hero-name reveal d2">
+          <span class="first">Carlos</span>
+          <span class="last">Haro</span>
+        </h1>
+
+        <p class="hero-tagline reveal d3">
+          <em>Product Manager</em> &amp; <em>Solutions Engineer</em>. Eight years
+          bridging deep technical execution and business strategy — shipping
+          end-to-end <span class="marker">data &amp; AI</span> across AWS, Azure and GCP.
+        </p>
+
+        <div class="hero-actions reveal d4">
+          <a class="btn" href="/cv">Enter the CV <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/contact">Get in touch</a>
+        </div>
+      </div>
+
+      <aside class="viz reveal d3" aria-label="Ambient sorting-algorithm animation">
+        <div class="viz-head">
+          <span class="viz-live"><span class="dot"></span>Sorting</span>
+          <span class="viz-n" id="algoN">n = 28</span>
+        </div>
+        <canvas id="sortCanvas" class="viz-canvas"></canvas>
+        <div class="viz-foot">
+          <span class="viz-algo" id="algoName">Insertion sort</span>
+          <span class="viz-big" id="algoBig">O(n²)</span>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="index" aria-label="Site sections">
+      {nav.map((item, i) => (
+        <a class={`index-item reveal d${5 + i}`} href={item.href}>
+          <span class="index-n">{item.n}</span>
+          <span class="index-body">
+            <span class="index-title">{item.title}</span>
+            <span class="index-desc">{item.desc}</span>
+          </span>
+          <span class="index-arrow">→</span>
+        </a>
+      ))}
+    </nav>
+
+    <footer class="rule-bottom">
+      <span><span class="strong">Carlos Alberto Haro López</span> — Data &amp; Analytics PM / Solutions Engineer</span>
+      <a class="link" href="mailto:haro_ca@outlook.com">haro_ca@outlook.com</a>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 3vh, 2.5rem);
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--page-padding) clamp(4rem, 8vh, 5.5rem);
+    background:
+      radial-gradient(circle at var(--spot-x, 92%) var(--spot-y, 6%), rgba(200, 255, 62, 0.28) 0%, transparent 42%),
+      radial-gradient(circle at var(--spot2-x, -6%) var(--spot2-y, 108%), rgba(200, 255, 62, 0.15) 0%, transparent 48%),
+      var(--bg);
+    animation:
+      spot-drift 26s ease-in-out infinite alternate,
+      spot-drift-2 34s ease-in-out infinite alternate;
+  }
+
+  @property --spot-x  { syntax: '<percentage>'; inherits: true; initial-value: 92%; }
+  @property --spot-y  { syntax: '<percentage>'; inherits: true; initial-value: 6%; }
+  @property --spot2-x { syntax: '<percentage>'; inherits: true; initial-value: -6%; }
+  @property --spot2-y { syntax: '<percentage>'; inherits: true; initial-value: 108%; }
+  @keyframes spot-drift {
+    0%   { --spot-x: 105%; --spot-y: -8%; }
+    50%  { --spot-x: 68%;  --spot-y: 26%; }
+    100% { --spot-x: 94%;  --spot-y: -4%; }
+  }
+  @keyframes spot-drift-2 {
+    0%   { --spot2-x: -8%; --spot2-y: 108%; }
+    50%  { --spot2-x: 28%; --spot2-y: 72%; }
+    100% { --spot2-x: 4%;  --spot2-y: 96%; }
+  }
+
+  .brand { display: inline-flex; align-items: center; gap: 0.6em; }
+  .brand-mark { width: 1.6em; height: 1em; fill: var(--ink); }
+
+  /* --- Hero main grid --- */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .hero-name {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: var(--display-large);
+    line-height: 0.86;
+    letter-spacing: -0.035em;
+    margin: clamp(1rem, 2.5vh, 1.8rem) 0 0;
+    font-variation-settings: "opsz" 144;
+  }
+  .hero-name .first, .hero-name .last { display: block; }
+  .hero-name .last { font-style: italic; font-weight: 400; }
+
+  .hero-name .first .ltr {
+    display: inline-block;
+    font-variation-settings: "opsz" 144, "wght" 900;
+    animation: letter-wave 4.8s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * -0.13s);
+  }
+  @keyframes letter-wave {
+    0%, 100% { font-variation-settings: "opsz" 144, "wght" 900; }
+    50%      { font-variation-settings: "opsz" 18,  "wght" 640; }
+  }
+  .hero-name .last {
+    animation: breathe 9s ease-in-out 1.2s infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { font-variation-settings: "opsz" 144, "SOFT" 0; font-weight: 400; }
+    50%      { font-variation-settings: "opsz" 90,  "SOFT" 100; font-weight: 500; }
+  }
+
+  .hero-tagline {
+    margin: clamp(1.2rem, 2.5vh, 2rem) 0 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: var(--tagline-size);
+    line-height: 1.45;
+    color: var(--muted);
+    max-width: 40ch;
+  }
+  .hero-tagline em { color: var(--ink); font-style: normal; font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.6rem, 1.4vw, 1rem);
+    margin-top: clamp(1.4rem, 3vh, 2.2rem);
+  }
+  .btn-ghost { border-color: var(--rule); color: var(--muted); }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); background: transparent; }
+
+  /* --- Sorting visualization --- */
+  .viz {
+    align-self: center;
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: rgba(236, 229, 215, 0.5);
+    backdrop-filter: blur(4px);
+    padding: clamp(0.8rem, 1.6vw, 1.2rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 0.9rem);
+  }
+  .viz-head, .viz-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: var(--label-size);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .viz-live { display: inline-flex; align-items: center; gap: 0.55em; color: var(--ink); font-weight: 500; }
+  .viz-live .dot {
+    width: 0.55em; height: 0.55em; border-radius: 50%;
+    background: var(--acid-deep);
+    box-shadow: 0 0 0 0 rgba(168, 224, 31, 0.6);
+    animation: live-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
+  }
+  .viz-canvas {
+    width: 100%;
+    height: clamp(200px, 32vh, 340px);
+    display: block;
+  }
+  .viz-algo { color: var(--ink); font-weight: 600; }
+  .viz-big { color: var(--acid-deep); font-weight: 600; }
+
+  /* --- Editorial index nav --- */
+  .index {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--ink);
+  }
+  .index-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1rem, 2vh, 1.5rem) clamp(1rem, 1.5vw, 1.4rem) clamp(1rem, 2vh, 1.4rem) 0;
+    border-right: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.35s var(--ease);
+  }
+  .index-item:last-child { border-right: none; }
+  .index-item::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0;
+    width: 0; height: 2px;
+    background: var(--acid-deep);
+    transition: width 0.4s var(--ease);
+  }
+  .index-item:hover::before { width: 100%; }
+  .index-n {
+    font-family: var(--font-mono);
+    font-size: var(--label-size);
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .index-body { display: flex; flex-direction: column; gap: 0.2rem; }
+  .index-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 2vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .index-desc {
+    font-size: clamp(0.78rem, 1vw, 0.9rem);
+    color: var(--muted);
+    line-height: 1.4;
+    max-width: 26ch;
+  }
+  .index-arrow {
+    font-family: var(--font-mono);
+    color: var(--acid-deep);
+    align-self: flex-start;
+    margin-top: 0.2rem;
+    transition: transform 0.35s var(--ease);
+  }
+  .index-item:hover .index-arrow { transform: translate(4px, -4px); }
+
+  /* --- Responsive --- */
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; gap: clamp(1.5rem, 4vh, 2.5rem); }
+    .viz { order: 2; }
+    .index { grid-template-columns: repeat(2, 1fr); }
+    .index-item:nth-child(2) { border-right: none; }
+    .index-item:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  }
+  @media (max-width: 560px) {
+    .index { grid-template-columns: 1fr; }
+    .index-item { border-right: none; border-bottom: 1px solid var(--rule); padding-right: 0; }
+    .index-item:last-child { border-bottom: none; }
+    .hero-tagline { max-width: none; }
+  }
+  @media (max-height: 720px) and (min-width: 901px) {
+    :root { --display-large: clamp(2.5rem, 9vw, 6.5rem); }
+    .viz-canvas { height: clamp(180px, 26vh, 260px); }
+  }
+</style>
+
+<script>
+  // ============================================================
+  // Ambient sorting-algorithm visualization + hero letter split
+  // ============================================================
+
+  // --- Hero: wrap first-name letters for the wave animation ---
+  const firstName = document.querySelector<HTMLElement>('.hero-name .first');
+  if (firstName) {
+    const text = firstName.textContent ?? '';
+    firstName.textContent = '';
+    [...text].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'ltr';
+      span.style.setProperty('--i', String(i));
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      firstName.appendChild(span);
+    });
+  }
+
+  // --- Canvas sorting animation ---
+  type Frame = { a: number[]; hi: number[] };
+  type Algo = { name: string; big: string; fn: (a: number[]) => Frame[] };
+
+  const canvas = document.getElementById('sortCanvas') as HTMLCanvasElement | null;
+
+  function shuffle(n: number): number[] {
+    const a = Array.from({ length: n }, (_, i) => i + 1);
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function insertion(input: number[]): Frame[] {
+    const a = input.slice();
+    const f: Frame[] = [{ a: a.slice(), hi: [] }];
+    for (let i = 1; i < a.length; i++) {
+      let j = i;
+      while (j > 0 && a[j - 1] > a[j]) {
+        [a[j - 1], a[j]] = [a[j], a[j - 1]];
+        f.push({ a: a.slice(), hi: [j - 1, j] });
+        j--;
+      }
+      f.push({ a: a.slice(), hi: [j] });
+    }
+    f.push({ a: a.slice(), hi: [] });
+    return f;
+  }
+
+  function selection(input: number[]): Frame[] {
+    const a = input.slice();
+    const f: Frame[] = [];
+    for (let i = 0; i < a.length; i++) {
+      let m = i;
+      for (let j = i + 1; j < a.length; j++) {
+        f.push({ a: a.slice(), hi: [m, j] });
+        if (a[j] < a[m]) m = j;
+      }
+      if (m !== i) [a[i], a[m]] = [a[m], a[i]];
+      f.push({ a: a.slice(), hi: [i] });
+    }
+    return f;
+  }
+
+  function bubble(input: number[]): Frame[] {
+    const a = input.slice();
+    const f: Frame[] = [];
+    for (let i = 0; i < a.length - 1; i++) {
+      for (let j = 0; j < a.length - 1 - i; j++) {
+        f.push({ a: a.slice(), hi: [j, j + 1] });
+        if (a[j] > a[j + 1]) {
+          [a[j], a[j + 1]] = [a[j + 1], a[j]];
+          f.push({ a: a.slice(), hi: [j, j + 1] });
+        }
+      }
+    }
+    f.push({ a: a.slice(), hi: [] });
+    return f;
+  }
+
+  function quick(input: number[]): Frame[] {
+    const a = input.slice();
+    const f: Frame[] = [];
+    const stack: [number, number][] = [[0, a.length - 1]];
+    while (stack.length) {
+      const [lo, hi] = stack.pop()!;
+      if (lo >= hi) continue;
+      const pivot = a[hi];
+      let i = lo;
+      for (let j = lo; j < hi; j++) {
+        f.push({ a: a.slice(), hi: [j, hi] });
+        if (a[j] < pivot) {
+          [a[i], a[j]] = [a[j], a[i]];
+          f.push({ a: a.slice(), hi: [i, j] });
+          i++;
+        }
+      }
+      [a[i], a[hi]] = [a[hi], a[i]];
+      f.push({ a: a.slice(), hi: [i, hi] });
+      stack.push([lo, i - 1]);
+      stack.push([i + 1, hi]);
+    }
+    f.push({ a: a.slice(), hi: [] });
+    return f;
+  }
+
+  const algos: Algo[] = [
+    { name: 'Insertion sort', big: 'O(n²)', fn: insertion },
+    { name: 'Quick sort', big: 'O(n log n)', fn: quick },
+    { name: 'Selection sort', big: 'O(n²)', fn: selection },
+    { name: 'Bubble sort', big: 'O(n²)', fn: bubble },
+  ];
+
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const css = (name: string) =>
+      getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const algoNameEl = document.getElementById('algoName');
+    const algoBigEl = document.getElementById('algoBig');
+    const algoNEl = document.getElementById('algoN');
+
+    let frames: Frame[] = [];
+    let idx = 0;
+    let n = 28;
+    let timer: number | undefined;
+    let algoIndex = 0;
+
+    let colAcid = '#c8ff3e';
+    let colInk = '#16140f';
+    let colDeep = '#a8e01f';
+
+    function readColors() {
+      colAcid = css('--acid') || colAcid;
+      colInk = css('--ink') || colInk;
+      colDeep = css('--acid-deep') || colDeep;
+    }
+
+    function fitCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(frame: Frame) {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      const len = frame.a.length;
+      const gap = Math.max(2, w * 0.006);
+      const barW = (w - gap * (len - 1)) / len;
+      const hiSet = new Set(frame.hi);
+      for (let i = 0; i < len; i++) {
+        const frac = frame.a[i] / len;
+        const barH = Math.max(3, frac * (h - 2));
+        const x = i * (barW + gap);
+        const y = h - barH;
+        ctx.fillStyle = hiSet.has(i) ? colInk : colAcid;
+        const r = Math.min(2, barW / 2);
+        roundRect(x, y, barW, barH, r);
+        ctx.fill();
+      }
+    }
+
+    function roundRect(x: number, y: number, w: number, h: number, r: number) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function start() {
+      if (timer) clearTimeout(timer);
+      readColors();
+      fitCanvas();
+      n = Math.max(12, Math.min(40, Math.floor(canvas.clientWidth / 15)));
+      const algo = algos[algoIndex % algos.length];
+      algoIndex++;
+      if (algoNameEl) algoNameEl.textContent = algo.name;
+      if (algoBigEl) algoBigEl.textContent = algo.big;
+      if (algoNEl) algoNEl.textContent = `n = ${n}`;
+
+      const arr = shuffle(n);
+      frames = algo.fn(arr);
+      idx = 0;
+
+      if (reduced) {
+        draw(frames[frames.length - 1]);
+        return;
+      }
+
+      const targetMs = 7000;
+      const interval = Math.max(12, targetMs / frames.length);
+      const tick = () => {
+        draw(frames[idx]);
+        if (idx >= frames.length - 1) {
+          timer = window.setTimeout(start, 1300);
+          return;
+        }
+        idx++;
+        timer = window.setTimeout(tick, interval);
+      };
+      tick();
+    }
+
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(start, 200);
+    });
+
+    start();
+  }
+</script>

@@ -15,6 +15,7 @@ dev/
 dist/
 build/
 .worker/
+.astro/
 
 # IDE
 .vscode/
@@ -40,3 +41,7 @@ coverage/
 # Temporary files
 *.tmp
 .cache/
+
+# Local project docs / assets (kept local, not published)
+WEBSITE_BRIEF.md
+h1sort.png
