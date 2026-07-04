@@ -9,12 +9,13 @@ export interface Props {
 }
 
 const {
-  title = 'Carlos Alberto Haro — Data & Analytics Product Manager and Solutions Engineer',
-  description = 'Carlos Alberto Haro López — Data & Analytics Product Manager and Solutions Engineer. 8+ years designing and shipping end-to-end data & AI solutions across AWS, Azure and GCP.',
+  title = 'Carlos Alberto Haro — AI Engineer & Technical Product Manager',
+  description = 'Carlos Alberto Haro López — AI Engineer & Technical Product Manager. 8+ years designing and shipping end-to-end data & AI solutions across AWS, Azure and GCP.',
   path = '/',
 } = Astro.props;
 
 const canonical = new URL(path, Astro.site ?? 'https://h1sort.com').toString();
+const ogImage = new URL('/og.png', Astro.site ?? 'https://h1sort.com').toString();
 ---
 
 <!doctype html>
@@ -35,7 +36,12 @@ const canonical = new URL(path, Astro.site ?? 'https://h1sort.com').toString();
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Carlos Haro — AI Engineer & Technical Product Manager, h1sort.com" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Fonts: Fraunces + IBM Plex Mono + Work Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

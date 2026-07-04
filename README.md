@@ -1,6 +1,6 @@
 # h1sort.com
 
-Personal website for **Carlos Alberto Haro López** — Data & Analytics Product Manager and Solutions Engineer.
+Personal website for **Carlos Alberto Haro López** — AI Engineer & Technical Product Manager.
 
 An editorial, animation-rich site built with [Astro](https://astro.build/) and deployed to Cloudflare Pages.
 
@@ -43,9 +43,16 @@ A successful `npm run build` generates **7 pages + a sitemap**.
 h1sort-website/
 ├── astro.config.mjs        # site url, static output, sitemap
 ├── tsconfig.json
+├── scripts/
+│   └── cv-pdf.mjs           # renders src/data/cv.md -> public/cv.pdf (prebuild hook)
+├── assets/
+│   └── og-card.html         # source for public/og.png (screenshot at 1200×630 with headless Chrome)
 ├── public/
-│   └── favicon.svg          # acid sorting-bars mark
+│   ├── favicon.svg          # acid sorting-bars mark
+│   └── og.png               # social share card (1200×630)
 └── src/
+    ├── data/
+    │   └── cv.md             # CV single source — the PDF is generated, never hand-edited
     ├── layouts/
     │   └── Base.astro        # <html> shell: fonts, SEO/OG, grain overlay, reveal observer
     ├── components/
@@ -58,7 +65,7 @@ h1sort-website/
     │   ├── blog.astro        # placeholder (markdown blog coming)
     │   ├── research.astro    # placeholder (matmul + systems)
     │   ├── teaching.astro    # Real-Time Data Processing course
-    │   └── contact.astro     # email · GitHub · location
+    │   └── contact.astro     # email · LinkedIn · GitHub · X · CV PDF · location
     └── styles/
         └── global.css        # design tokens + shared utilities
 ```
@@ -74,7 +81,7 @@ h1sort-website/
 │   ├── /blog     Notes & essays  (markdown — planned)
 │   └── /research Projects & write-ups (matmul, systems)
 ├── /teaching     Courses & workshops (Real-Time Data Processing)
-└── /contact      Email · GitHub · location
+└── /contact      Email · LinkedIn · GitHub · X · CV PDF · location
 ```
 
 The landing's section index links to **Curriculum · Writing · Teaching · Contact**. Blog and Research live *under* Writing (each links back to `/writing`).
@@ -105,6 +112,7 @@ Most content is defined as typed arrays in each page's frontmatter — edit the 
 - **Teaching** — `src/pages/teaching.astro`: `pipeline`, `stack`, `stats`, `repo`.
 - **Contact** — `src/pages/contact.astro`: `channels`.
 - **Landing nav** — `src/pages/index.astro`: `nav`.
+- **CV PDF** — `src/data/cv.md`, rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` on every build (`prebuild` hook; needs Chrome locally or `CHROME_PATH`). Edit the markdown — the PDF is never touched by hand.
 
 Blog (Markdown content collections + RSS) and the Research write-ups are planned next.
 

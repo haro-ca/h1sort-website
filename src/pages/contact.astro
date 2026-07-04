@@ -3,14 +3,17 @@ import Base from '../layouts/Base.astro';
 
 const channels = [
   { label: 'Email', value: 'haro_ca@outlook.com', href: 'mailto:haro_ca@outlook.com' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/h1sort', href: 'https://www.linkedin.com/in/h1sort' },
   { label: 'GitHub', value: 'github.com/haro-ca', href: 'https://github.com/haro-ca' },
+  { label: 'X', value: 'x.com/h1sort', href: 'https://x.com/h1sort' },
+  { label: 'CV', value: 'Download PDF', href: '/cv.pdf' },
   { label: 'Location', value: 'Mexico City, Mexico', href: null },
 ];
 ---
 
 <Base
   title="Contact — Carlos Alberto Haro"
-  description="Get in touch with Carlos Alberto Haro — email, GitHub, and location."
+  description="Get in touch with Carlos Alberto Haro — email, LinkedIn, GitHub, X, and a downloadable CV."
   path="/contact"
 >
   <section class="contact">
@@ -37,7 +40,7 @@ const channels = [
 
       <div class="channels">
         {channels.map((c, i) => (
-          <div class={`channel reveal d${4 + i}`}>
+          <div class={`channel reveal d${Math.min(4 + i, 8)}`}>
             <span class="channel-label">{c.label}</span>
             {c.href ? (
               <a class="channel-value link" href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{c.value}</a>

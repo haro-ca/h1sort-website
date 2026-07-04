@@ -10,7 +10,7 @@ The personal website for **Carlos Alberto Haro** at **h1sort.com** — an Astro 
 
 ```bash
 npm run dev      # dev server (http://localhost:4321)
-npm run build    # static build -> dist/  (MUST pass; produces 7 pages + sitemap)
+npm run build    # prebuild: src/data/cv.md -> public/cv.pdf, then static build -> dist/  (MUST pass; 7 pages + sitemap)
 npm run preview  # preview the production build
 ```
 
@@ -22,7 +22,8 @@ Always run `npm run build` after changes to verify the site still generates.
 - **No client frameworks.** Keep interactivity in vanilla TS `<script>` blocks inside `.astro` files.
 - **Respect motion prefs.** Any animation must degrade under `prefers-reduced-motion` (global CSS already dampens transitions/animations; canvas/JS effects must check `matchMedia('(prefers-reduced-motion: reduce)')`).
 - **Content lives in frontmatter data arrays**, not inline in markup. Edit the data.
-- **Never reintroduce the phone number.** It was intentionally removed for privacy. Contact = email + GitHub + location only.
+- **Never reintroduce the phone number.** It was intentionally removed for privacy. Contact = email + LinkedIn (`linkedin.com/in/h1sort`) + GitHub (`github.com/haro-ca`) + X (`x.com/h1sort`) + CV PDF + location only.
+- **The CV PDF is generated, never hand-edited.** `src/data/cv.md` is the single source; `scripts/cv-pdf.mjs` renders it to `public/cv.pdf` (gitignored) via the `prebuild` npm hook — needs Chrome locally, or set `CHROME_PATH`. Edit the markdown, run the build.
 - **`WEBSITE_BRIEF.md` and `h1sort.png` are gitignored / local-only.** They are the source brief & a CV screenshot — never publish or commit them.
 - **Don't commit secrets.** No API tokens, no account/zone IDs in code or docs.
 
@@ -71,6 +72,7 @@ Page-scoped styles go in the page's own `<style>` block. Reuse tokens; don't har
 | CV slides | `src/components/CvDeck.astro` · `disciplines`, `santanderCards`, `fredFacts`, `accenture`, `stack`, `contact` |
 | Teaching | `src/pages/teaching.astro` · `pipeline`, `stack`, `stats`, `repo` |
 | Contact | `src/pages/contact.astro` · `channels` |
+| CV PDF | `src/data/cv.md` — rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` (prebuild) |
 
 ## Deployment
 

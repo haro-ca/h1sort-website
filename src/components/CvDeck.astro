@@ -70,7 +70,10 @@ const stack = [
 
 const contact = [
   { label: 'Email', value: 'haro_ca@outlook.com', href: 'mailto:haro_ca@outlook.com' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/h1sort', href: 'https://www.linkedin.com/in/h1sort' },
   { label: 'GitHub', value: 'github.com/haro-ca', href: 'https://github.com/haro-ca' },
+  { label: 'X', value: 'x.com/h1sort', href: 'https://x.com/h1sort' },
+  { label: 'CV', value: 'Download PDF', href: '/cv.pdf' },
   { label: 'Location', value: 'Mexico City, Mexico', href: null },
 ];
 ---
@@ -78,6 +81,7 @@ const contact = [
 <!-- Fixed chrome -->
 <div class="deck-progress" id="deckProgress" aria-hidden="true"></div>
 <a class="deck-home" href="/"><span class="ar">←</span> h1sort</a>
+<a class="deck-pdf" href="/cv.pdf" download="carlos-haro-cv.pdf">PDF <span class="ar">↓</span></a>
 <nav class="deck-nav" id="deckNav" aria-label="Slide navigation"></nav>
 <div class="deck-hint" id="deckHint">scroll · arrows · dots</div>
 
@@ -91,7 +95,7 @@ const contact = [
       <h1 class="title-name reveal d2">Carlos <span class="ital">Haro</span></h1>
       <div class="title-rule reveal d3"></div>
       <p class="title-tagline reveal d4">
-        Data &amp; Analytics <em>Product Manager</em> and <em>Solutions Engineer</em>.
+        <em>AI Engineer</em> and Technical <em>Product Manager</em>.
         Eight years bridging technical execution and business strategy across AWS, Azure &amp; GCP.
       </p>
       <div class="title-roles reveal d5">
@@ -272,7 +276,8 @@ const contact = [
     background: var(--acid-deep); z-index: 100;
     transition: width 0.35s var(--ease);
   }
-  .deck-home {
+  .deck-home,
+  .deck-pdf {
     position: fixed; top: clamp(0.9rem, 2.5vh, 1.6rem); left: var(--page-padding);
     z-index: 90;
     font-family: var(--font-mono); font-size: var(--label-size);
@@ -280,11 +285,17 @@ const contact = [
     display: inline-flex; align-items: center; gap: 0.5em;
     transition: color 0.3s var(--ease);
   }
-  .deck-home .ar { transition: transform 0.3s var(--ease); }
-  .deck-home:hover { color: var(--ink); }
+  .deck-pdf { left: auto; right: var(--page-padding); }
+  .deck-home .ar,
+  .deck-pdf .ar { transition: transform 0.3s var(--ease); }
+  .deck-home:hover,
+  .deck-pdf:hover { color: var(--ink); }
   .deck-home:hover .ar { transform: translateX(-3px); }
-  .deck-home.on-dark { color: rgba(239, 234, 223, 0.6); }
-  .deck-home.on-dark:hover { color: #fff; }
+  .deck-pdf:hover .ar { transform: translateY(3px); }
+  .deck-home.on-dark,
+  .deck-pdf.on-dark { color: rgba(239, 234, 223, 0.6); }
+  .deck-home.on-dark:hover,
+  .deck-pdf.on-dark:hover { color: #fff; }
 
   .deck-nav {
     position: fixed; right: clamp(14px, 2.4vw, 28px); top: 50%;
@@ -518,8 +529,9 @@ const contact = [
       current = i;
       dots.forEach((d, k) => d.classList.toggle('active', k === i));
       progress.style.width = `${(i / Math.max(1, slides.length - 1)) * 100}%`;
-      // Tint the home link on dark slides
-      document.querySelector('.deck-home')?.classList.toggle('on-dark', slides[i].classList.contains('slide--dark'));
+      // Tint the fixed chrome links on dark slides
+      document.querySelectorAll('.deck-home, .deck-pdf').forEach((el) =>
+        el.classList.toggle('on-dark', slides[i].classList.contains('slide--dark')));
     };
 
     const goTo = (i: number) => {
