@@ -17,6 +17,22 @@ const {
 // Pages are served as directories, so canonical URLs always end in a slash.
 const canonical = new URL(path.endsWith('/') ? path : `${path}/`, Astro.site ?? 'https://h1sort.com').toString();
 const ogImage = new URL('/og.png', Astro.site ?? 'https://h1sort.com').toString();
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Carlos Alberto Haro López',
+  alternateName: 'Carlos Haro',
+  jobTitle: 'AI Engineer & Technical Product Manager',
+  url: 'https://h1sort.com/',
+  email: 'mailto:carlos@h1sort.com',
+  address: { '@type': 'PostalAddress', addressLocality: 'Mexico City', addressCountry: 'MX' },
+  sameAs: [
+    'https://github.com/haro-ca',
+    'https://www.linkedin.com/in/h1sort',
+    'https://x.com/h1sort',
+  ],
+};
 ---
 
 <!doctype html>
@@ -24,6 +40,8 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://h1sort.com').toString(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Runs before first paint: gates the hidden pre-reveal state so no-JS visitors see full content -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
@@ -44,13 +62,13 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://h1sort.com').toString(
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Fonts: Fraunces + IBM Plex Mono + Work Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700;1,9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Work+Sans:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Structured data -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(person)} />
+
+    <!-- Fonts: Fraunces + IBM Plex Mono + Work Sans — self-hosted (src/styles/fonts.css), preload the above-the-fold trio -->
+    <link rel="preload" href="/fonts/fraunces-normal-900-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/work-sans-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ibm-plex-mono-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>

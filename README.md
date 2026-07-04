@@ -15,7 +15,7 @@ An editorial, animation-rich site built with [Astro](https://astro.build/) and d
 |---|---|
 | Framework | Astro 5 (static output) |
 | Styling | Plain CSS + a design-system stylesheet (`src/styles/global.css`) with `:root` design tokens |
-| Fonts | Google Fonts — Fraunces, IBM Plex Mono, Work Sans |
+| Fonts | Self-hosted woff2 (`public/fonts/` + `src/styles/fonts.css`) — Fraunces, IBM Plex Mono, Work Sans. Re-mirror with `node scripts/mirror-fonts.mjs` if families/weights change |
 | SEO | Per-page meta + Open Graph via the `Base` layout; `@astrojs/sitemap` |
 | Hosting | Cloudflare Pages (project `h1sort`) |
 | Runtime | Node 24, npm |
@@ -140,4 +140,4 @@ Custom domains `h1sort.com` and `www.h1sort.com` are attached to the Pages proje
 ## License
 
 © Carlos Alberto Haro López. All rights reserved.
-Contact: [haro_ca@outlook.com](mailto:haro_ca@outlook.com) · [github.com/haro-ca](https://github.com/haro-ca)
+Contact: [carlos@h1sort.com](mailto:carlos@h1sort.com) · [github.com/haro-ca](https://github.com/haro-ca)

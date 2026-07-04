@@ -19,6 +19,7 @@ Always run `npm run build` after changes to verify the site still generates.
 ## Golden rules
 
 - **Stay on-theme.** Use the design tokens and utilities in `src/styles/global.css`. Do not introduce new colors, fonts, or a CSS framework. Re-skinning happens through `:root` variables only.
+- **Fonts are self-hosted** (`public/fonts/` + `src/styles/fonts.css`, imported by `global.css`) — no Google Fonts links in layouts. To change families/weights, edit the URL inside `scripts/mirror-fonts.mjs` and re-run it.
 - **No client frameworks.** Keep interactivity in vanilla TS `<script>` blocks inside `.astro` files.
 - **Respect motion prefs.** Any animation must degrade under `prefers-reduced-motion` (global CSS already dampens transitions/animations; canvas/JS effects must check `matchMedia('(prefers-reduced-motion: reduce)')`).
 - **Content lives in frontmatter data arrays**, not inline in markup. Edit the data.

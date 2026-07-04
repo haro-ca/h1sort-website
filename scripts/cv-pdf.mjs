@@ -95,6 +95,7 @@ const html = `<!doctype html>
   li { margin: 1.5pt 0; }
   li::marker { color: var(--acid-deep); }
   .page-break { break-after: page; }
+  .page-break + * { margin-top: 40pt; }
   strong { font-weight: 600; }
   em { font-style: italic; color: var(--muted); }
   /* Acid marker on the summary bold phrase */

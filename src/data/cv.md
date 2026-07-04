@@ -2,7 +2,7 @@
 
 ## AI Engineer & Technical Product Manager
 
-[haro_ca@outlook.com](mailto:haro_ca@outlook.com) · [h1sort.com](https://h1sort.com) · [github.com/haro-ca](https://github.com/haro-ca) · [linkedin.com/in/h1sort](https://www.linkedin.com/in/h1sort) · [x.com/h1sort](https://x.com/h1sort) · Mexico City, MX
+[carlos@h1sort.com](mailto:carlos@h1sort.com) · [h1sort.com](https://h1sort.com) · [github.com/haro-ca](https://github.com/haro-ca) · [linkedin.com/in/h1sort](https://www.linkedin.com/in/h1sort) · [x.com/h1sort](https://x.com/h1sort) · Mexico City, MX
 
 8+ years of experience designing and implementing end-to-end data & AI solutions across AWS, Azure, and GCP. **Adept at bridging technical execution and business strategy to drive innovative and scalable data solutions, for sales and for execution.**
 
@@ -35,9 +35,9 @@
 - **Product:** Prototype Santander agent harness demonstrating org-wide AI access.
 - **Outcome:** Influenced the global organization to make AI available to every Santander Mexico employee — today delivered through Copilot Chat.
 
-**AI evangelism & Knowledge Base MVP** · *AI Engineer*
+**AI teaching & Knowledge Base MVP** · *AI Engineer*
 
-- Taught 300+ employees across 6 bank areas on agent harnesses (ChatGPT, Copilot, Claude, Windsurf, Devin, Cortex); built internal MCP + skill tooling now used by 50+ engineers.
+- Taught 300+ employees across 6 bank areas on agent harnesses (ChatGPT, Copilot, Claude, Windsurf, Devin, Cortex); built internal AI tooling now used by 50+ engineers.
 - Knowledge-base agent with two tools — structured SQL + unstructured OCR RAG — being deployed to production AWS as KB v0.1.
 
 <div class="page-break"></div>
