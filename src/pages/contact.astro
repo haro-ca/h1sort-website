@@ -110,7 +110,7 @@ const channels = [
     border-bottom: 1px solid var(--rule);
     border-right: 1px solid var(--rule);
   }
-  .channel:nth-child(2n) { border-right: none; padding-right: 0; }
+  .channel:nth-child(2n) { border-right: none; padding-right: 0; padding-left: clamp(1rem, 2vw, 1.6rem); }
   .channel:last-child { border-right: none; }
   .channel-label {
     font-family: var(--font-mono);
@@ -129,5 +129,6 @@ const channels = [
   @media (max-width: 560px) {
     .channels { grid-template-columns: 1fr; }
     .channel { border-right: none; padding-right: 0; }
+    .channel:nth-child(2n) { padding-left: 0; }
   }
 </style>
