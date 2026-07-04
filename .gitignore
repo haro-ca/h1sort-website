@@ -45,6 +45,3 @@ coverage/
 # Local project docs / assets (kept local, not published)
 WEBSITE_BRIEF.md
 h1sort.png
-
-# Generated at build time from src/data/cv.md (see scripts/cv-pdf.mjs)
-public/cv.pdf

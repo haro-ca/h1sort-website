@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://h1sort.com',
   output: 'static',
+  trailingSlash: 'always',
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'auto',

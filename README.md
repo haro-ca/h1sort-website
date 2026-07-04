@@ -112,7 +112,7 @@ Most content is defined as typed arrays in each page's frontmatter — edit the 
 - **Teaching** — `src/pages/teaching.astro`: `pipeline`, `stack`, `stats`, `repo`.
 - **Contact** — `src/pages/contact.astro`: `channels`.
 - **Landing nav** — `src/pages/index.astro`: `nav`.
-- **CV PDF** — `src/data/cv.md`, rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` on every build (`prebuild` hook; needs Chrome locally or `CHROME_PATH`). Edit the markdown — the PDF is never touched by hand.
+- **CV PDF** — `src/data/cv.md`, rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` on every build (`prebuild` hook; needs Chrome locally or `CHROME_PATH`). Edit the markdown — the PDF is never touched by hand. The PDF is committed: Cloudflare Pages CI has no Chrome, so the prebuild skips there and the committed file ships. Regenerate + commit it whenever `cv.md` changes.
 
 Blog (Markdown content collections + RSS) and the Research write-ups are planned next.
 
@@ -120,7 +120,11 @@ Blog (Markdown content collections + RSS) and the Research write-ups are planned
 
 ## Deployment
 
-Deployed to **Cloudflare Pages** (project `h1sort`, production branch `main`).
+Deployed to **Cloudflare Pages** (project `h1sort`, production branch `main`), **git-connected**: pushing to `main` triggers a CI build (`npm run build`, output `dist/`) and deploy.
+
+CI has no Chrome, so it can't regenerate the CV PDF — the committed `public/cv.pdf` ships as-is. After editing `src/data/cv.md`, run `npm run build` locally and commit the regenerated PDF with your change.
+
+Manual deploy (fallback, bypasses CI):
 
 ```bash
 npm run build

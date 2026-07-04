@@ -14,7 +14,8 @@ const {
   path = '/',
 } = Astro.props;
 
-const canonical = new URL(path, Astro.site ?? 'https://h1sort.com').toString();
+// Pages are served as directories, so canonical URLs always end in a slash.
+const canonical = new URL(path.endsWith('/') ? path : `${path}/`, Astro.site ?? 'https://h1sort.com').toString();
 const ogImage = new URL('/og.png', Astro.site ?? 'https://h1sort.com').toString();
 ---
 

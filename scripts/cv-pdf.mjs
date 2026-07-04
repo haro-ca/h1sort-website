@@ -23,7 +23,12 @@ const CHROME_CANDIDATES = [
 
 const chrome = CHROME_CANDIDATES.find((p) => existsSync(p));
 if (!chrome) {
-  console.error('cv-pdf: no Chrome/Chromium found. Set CHROME_PATH and retry.');
+  // CI (Cloudflare Pages) has no Chrome — fall back to the committed PDF.
+  if (existsSync(OUT)) {
+    console.warn('cv-pdf: no Chrome/Chromium found — keeping existing public/cv.pdf. Regenerate locally after editing src/data/cv.md.');
+    process.exit(0);
+  }
+  console.error('cv-pdf: no Chrome/Chromium found and public/cv.pdf is missing. Set CHROME_PATH and retry.');
   process.exit(1);
 }
 
