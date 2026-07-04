@@ -9,14 +9,18 @@
     "start": "astro dev",
     "prebuild": "node scripts/build-chat-context.mjs && node scripts/cv-pdf.mjs",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "@astrojs/sitemap": "^3.2.1",
     "astro": "^5.6.1"
   },
   "devDependencies": {
-    "marked": "^18.0.5"
+    "marked": "^18.0.5",
+    "wrangler": "^4.107.0"
   }
 }
