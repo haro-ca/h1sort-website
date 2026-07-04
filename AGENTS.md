@@ -35,7 +35,7 @@ Always run `npm run build` after changes to verify the site still generates.
 - `src/components/CvDeck.astro` — the animated CV: a scroll-snap slide deck with nav dots, progress bar, and keyboard nav. It is a self-contained deck (its own `.deck` scroll container so snapping doesn't leak to other pages).
 - `src/components/ComingSoon.astro` — reusable placeholder. Props: `section`, `title`, `blurb`, `tag?`, `back?`, `backLabel?`, `status?`.
 - `src/styles/global.css` — design tokens (`:root`) + shared utilities.
-- `src/components/AskWidget.astro` — floating "Ask" assistant (rendered by Base on every page). Talks to `functions/api/chat.ts`, a Cloudflare Pages Function that streams Claude Haiku (`claude-haiku-4-5`) answers. Grounding context is generated into `functions/site-context.ts` (gitignored) from `src/data/cv.md` by `scripts/build-chat-context.mjs` (prebuild). The `ANTHROPIC_API_KEY` secret lives on the Pages project / `.dev.vars` locally — NEVER in client code or the repo. Test with `npm run build && npx wrangler pages dev dist`.
+- `src/components/AskWidget.astro` — "Ask Assistant" pill fixed top-center that opens a right lateral chat panel (rendered by Base on every page). Talks to `functions/api/chat.ts`, a Cloudflare Pages Function that streams Claude Haiku (`claude-haiku-4-5`) answers. Grounding context is generated into `functions/site-context.ts` (gitignored) from `src/data/cv.md` by `scripts/build-chat-context.mjs` (prebuild). The `ANTHROPIC_API_KEY` secret lives on the Pages project / `.dev.vars` locally — NEVER in client code or the repo. Test with `npm run build && npx wrangler pages dev dist`.
 
 ## Information architecture
 
