@@ -1,0 +1,559 @@
+---
+// Animated CV — Editorial Acid theme.
+// Simple slide-based deck (scroll-snap), reskinned from the warm editorial CV.
+
+const disciplines = [
+  { y: '2y', name: 'Data Engineering', sub: 'Pipelines, ETLs, warehouses' },
+  { y: '2y', name: 'Data Science', sub: 'Modeling, ML, analytics' },
+  { y: '1y', name: 'ML Engineering', sub: 'MLOps, deployment, monitoring' },
+  { y: '1y', name: 'Software Engineering', sub: 'Fullstack, APIs, dev practices' },
+  { y: 'Now', name: 'AI Engineering + PM', sub: 'Agents, RAG, product strategy' },
+];
+
+const santanderCards = [
+  {
+    title: 'RAG Chatbot',
+    role: 'Technical PM · Mar–Jul 2025',
+    body: 'Cloud RAG for the branch network & contact center. Evals scaled from <100 to >1,000, eval time cut 10×. V1.0 in production at 20% adoption — V2 shipping next.',
+  },
+  {
+    title: 'AI Evangelism',
+    role: 'AI Engineer · Now',
+    body: 'Taught 300+ employees across 6 bank areas on agent harnesses. Built 1 MCP + 1 skill now used by 50+ engineers.',
+  },
+  {
+    title: 'Knowledge Base MVP',
+    role: 'AI Engineer · Now',
+    body: 'Agent over a knowledge base with two tools — structured SQL + unstructured OCR RAG. Being deployed to production AWS as KB v0.1.',
+  },
+];
+
+const fredFacts = [
+  ['Throughput', 'From an analyst\u2019s ~1k credit petitions / week to 10k analyzed in a single hour.'],
+  ['In production', 'Live inside Santander Mexico, replacing a manual analysis bottleneck.'],
+  ['Structured agent', 'Deterministic fraud-analysis pipeline over financial signals.'],
+  ['Full ownership', 'Architecture through deployment — including the FRED name & identity.'],
+];
+
+const accenture = [
+  {
+    year: '2024–25',
+    role: 'Manager · PM · Architect · Lead Eng',
+    name: 'Cloud MLOps Framework',
+    desc: 'CI/CD (MLOps) for an international bank across Snowflake ML, VertexAI, Sagemaker, AzureML & Databricks. Legacy proprietary autoML migrated to open-source equivalents.',
+    outcome: 'V1.0 delivered to production',
+  },
+  {
+    year: '2023',
+    role: 'Consultant · Lead Eng',
+    name: 'Analytics Platform Assessment',
+    desc: 'Full data value-chain assessment for an international insurer — OnPrem DBs, DWH, cloud migration & BI. Diagnosed bottlenecks from poor modelling & missing analytics engineering.',
+    outcome: 'Prioritized roadmap delivered',
+  },
+  {
+    year: '2022',
+    role: 'Consultant · Lead Eng · Architect',
+    name: 'Omnichannel Unified Data Model',
+    desc: 'Unified brick-&-mortar + e-commerce KPIs for an international retailer. ETLs built from scratch in PySpark; semantic layer & pipelines still in use today.',
+    outcome: 'Still running in production',
+  },
+];
+
+const stack = [
+  { cat: 'AI & Agents', items: ['RAG systems · Vector search', 'Agent frameworks · Evals', 'Prompt engineering · MCP', 'LLM deployment & monitoring'] },
+  { cat: 'MLOps & Platforms', items: ['VertexAI · Sagemaker · AzureML', 'MLflow · Databricks', 'Snowflake ML', 'CI/CD for ML'] },
+  { cat: 'Data Engineering', items: ['Databricks · Snowflake · BigQuery', 'Azure Synapse · Redshift', 'DataFactory · EMR/Glue · DataFlow', 'Airflow · dbt · dagster'] },
+  { cat: 'Cloud', items: ['AWS · Azure · GCP', '8+ years multi-cloud'] },
+  { cat: 'BI & Analytics', items: ['Looker · Power BI', 'Semantic layer design'] },
+  { cat: 'Fullstack (limited)', items: ['Next.js · Astro · FastAPI · Flask', 'Python · PySpark · SQL'] },
+];
+
+const contact = [
+  { label: 'Email', value: 'haro_ca@outlook.com', href: 'mailto:haro_ca@outlook.com' },
+  { label: 'Phone', value: '+52 55 4985 5334', href: 'tel:+525549855334' },
+  { label: 'GitHub', value: 'github.com/haro-ca', href: 'https://github.com/haro-ca' },
+  { label: 'Location', value: 'Mexico City, Mexico', href: null },
+];
+---
+
+<!-- Fixed chrome -->
+<div class="deck-progress" id="deckProgress" aria-hidden="true"></div>
+<a class="deck-home" href="/"><span class="ar">←</span> h1sort</a>
+<nav class="deck-nav" id="deckNav" aria-label="Slide navigation"></nav>
+<div class="deck-hint" id="deckHint">scroll · arrows · dots</div>
+
+<div class="deck" id="deck">
+
+  <!-- 01 — TITLE -->
+  <section class="slide slide-title" data-label="Intro">
+    <span class="slide-num">01</span>
+    <div class="inner center">
+      <span class="acid-label reveal d1">Curriculum Vitae — 2026</span>
+      <h1 class="title-name reveal d2">Carlos <span class="ital">Haro</span></h1>
+      <div class="title-rule reveal d3"></div>
+      <p class="title-tagline reveal d4">
+        Data &amp; Analytics <em>Product Manager</em> and <em>Solutions Engineer</em>.
+        Eight years bridging technical execution and business strategy across AWS, Azure &amp; GCP.
+      </p>
+      <div class="title-roles reveal d5">
+        <span>Engineer</span><i></i><span>Architect</span><i></i><span>Builder</span>
+      </div>
+    </div>
+    <span class="slide-loc reveal d6">Mexico City · MX</span>
+  </section>
+
+  <!-- 02 — THE BUILDER -->
+  <section class="slide" data-label="Profile">
+    <span class="slide-num">02</span>
+    <div class="inner grid-2">
+      <div class="col">
+        <span class="mono-label reveal d1">Background</span>
+        <h2 class="heading reveal d2">8+ years across the <span class="ital">full</span> data lifecycle</h2>
+        <p class="lede reveal d3">
+          Not just a PM. Not just an engineer. A profile that has held every
+          technical role in the data stack — and now builds AI products that ship.
+        </p>
+      </div>
+      <div class="col disciplines">
+        {disciplines.map((d, i) => (
+          <div class={`disc reveal d${i + 2}`}>
+            <span class="disc-y">{d.y}</span>
+            <span class="disc-meta"><span class="disc-name">{d.name}</span><span class="disc-sub">{d.sub}</span></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — SANTANDER -->
+  <section class="slide" data-label="Santander">
+    <span class="slide-num">03</span>
+    <div class="inner stack-v">
+      <div class="row-top reveal d1">
+        <div>
+          <h2 class="company">Santander AI</h2>
+          <span class="company-sub">2025 — Present · Mexico City</span>
+        </div>
+        <span class="pill pill-live">Current</span>
+      </div>
+      <div class="hr reveal d2"></div>
+      <h3 class="role-title reveal d2">AI Engineer &amp; Technical Product Manager</h3>
+      <p class="lede reveal d3">
+        From RAG product management to hands-on AI engineering — building and shipping
+        AI systems for one of Mexico's largest banks, end to end.
+      </p>
+      <div class="cards reveal d4">
+        {santanderCards.map((c) => (
+          <article class="card">
+            <span class="card-role">{c.role}</span>
+            <h4 class="card-title">{c.title}</h4>
+            <p class="card-body">{c.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — FRED (dark) -->
+  <section class="slide slide--dark" data-label="FRED">
+    <span class="slide-num dark">04</span>
+    <div class="inner grid-2">
+      <div class="col">
+        <span class="acid-label reveal d1">AI Agent · In Production</span>
+        <h2 class="project-name reveal d2">FRED</h2>
+        <p class="project-full reveal d3">Structured fraud-analysis agent<br />Santander Mexico</p>
+        <div class="metric reveal d4">
+          <span class="metric-num">10k</span>
+          <span class="metric-sub">credit petitions analyzed in <em>1 hour</em></span>
+        </div>
+      </div>
+      <div class="col facts">
+        {fredFacts.map((f, i) => (
+          <div class={`fact reveal d${i + 3}`}>
+            <span class="fact-dot"></span>
+            <span class="fact-text"><strong>{f[0]}</strong> — {f[1]}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — PRONTOGPT -->
+  <section class="slide" data-label="ProntoGPT">
+    <span class="slide-num">05</span>
+    <div class="inner grid-2">
+      <div class="col">
+        <span class="acid-label reveal d1">AI Agent · Internal Platform</span>
+        <h2 class="project-name reveal d2">Pronto<span class="ital">GPT</span></h2>
+        <span class="pill reveal d3">Prototype → org-wide impact</span>
+      </div>
+      <div class="col">
+        <p class="lede reveal d2">
+          A prototype Santander agent harness built to break a budget constraint —
+          only <strong>10%</strong> of the Mexico org had a ChatGPT license.
+        </p>
+        <div class="arc reveal d3">
+          <span class="arc-a">10% access</span>
+          <span class="arc-arrow">→</span>
+          <span class="arc-b"><span class="marker">All MX employees</span></span>
+        </div>
+        <p class="note reveal d4">
+          The project influenced the global organization to make AI available to every
+          Santander Mexico employee — today delivered through Copilot Chat.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — ACCENTURE -->
+  <section class="slide" data-label="Accenture">
+    <span class="slide-num">06</span>
+    <div class="inner stack-v">
+      <div class="row-top reveal d1">
+        <h2 class="company">Accenture <span class="ital">Data &amp; AI</span></h2>
+        <span class="company-sub">2022 — 2025</span>
+      </div>
+      <div class="hr reveal d2"></div>
+      <div class="projects reveal d3">
+        {accenture.map((p) => (
+          <article class="proj">
+            <span class="proj-year">{p.year}</span>
+            <span class="proj-role">{p.role}</span>
+            <h4 class="proj-name">{p.name}</h4>
+            <p class="proj-desc">{p.desc}</p>
+            <span class="proj-outcome">✓ {p.outcome}</span>
+          </article>
+        ))}
+      </div>
+      <p class="prior reveal d6">
+        Prior — Software Engineer · Development Bank (2020–21) &nbsp;·&nbsp;
+        Data Scientist · Central Tax Administration (2018–20) &nbsp;·&nbsp;
+        Data Engineer · Boutique consulting (2017)
+      </p>
+    </div>
+  </section>
+
+  <!-- 07 — STACK + CONTACT -->
+  <section class="slide" data-label="Stack">
+    <span class="slide-num">07</span>
+    <div class="inner stack-v">
+      <div class="reveal d1">
+        <span class="mono-label">Technical Stack</span>
+        <h2 class="heading">Tools I've <span class="ital">shipped</span> with</h2>
+      </div>
+      <div class="stack-grid reveal d2">
+        {stack.map((g) => (
+          <div class="stack-group">
+            <span class="stack-cat">{g.cat}</span>
+            <ul class="stack-items">
+              {g.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div class="contact-row reveal d4">
+        {contact.map((c) => (
+          <div class="contact-item">
+            <span class="contact-label">{c.label}</span>
+            {c.href
+              ? <a class="contact-val link" href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{c.value}</a>
+              : <span class="contact-val">{c.value}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+  /* ---- Fixed chrome ---- */
+  .deck-progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0;
+    background: var(--acid-deep); z-index: 100;
+    transition: width 0.35s var(--ease);
+  }
+  .deck-home {
+    position: fixed; top: clamp(0.9rem, 2.5vh, 1.6rem); left: var(--page-padding);
+    z-index: 90;
+    font-family: var(--font-mono); font-size: var(--label-size);
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 0.5em;
+    transition: color 0.3s var(--ease);
+  }
+  .deck-home .ar { transition: transform 0.3s var(--ease); }
+  .deck-home:hover { color: var(--ink); }
+  .deck-home:hover .ar { transform: translateX(-3px); }
+  .deck-home.on-dark { color: rgba(239, 234, 223, 0.6); }
+  .deck-home.on-dark:hover { color: #fff; }
+
+  .deck-nav {
+    position: fixed; right: clamp(14px, 2.4vw, 28px); top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: clamp(9px, 1.4vh, 15px);
+    z-index: 90;
+  }
+  .deck-nav button {
+    width: 7px; height: 7px; border-radius: 50%; padding: 0; border: none;
+    background: var(--rule); cursor: pointer;
+    transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .deck-nav button:hover { background: var(--muted); }
+  .deck-nav button.active { background: var(--acid-deep); transform: scale(1.5); }
+
+  .deck-hint {
+    position: fixed; bottom: clamp(0.8rem, 2vh, 1.3rem); left: 50%;
+    transform: translateX(-50%); z-index: 90;
+    font-family: var(--font-mono); font-size: 0.65rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-soft);
+    pointer-events: none; opacity: 0;
+    animation: hintFade 4s ease 1.2s both;
+  }
+  @keyframes hintFade { 0% { opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* ---- Deck / slides ---- */
+  .deck {
+    height: 100dvh; overflow-y: scroll; overflow-x: hidden;
+    scroll-snap-type: y mandatory; scroll-behavior: smooth;
+  }
+  .deck::-webkit-scrollbar { width: 0; }
+  .deck { scrollbar-width: none; }
+
+  .slide {
+    position: relative;
+    height: 100dvh;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 88% 8%, rgba(200, 255, 62, 0.18) 0%, transparent 44%),
+      radial-gradient(circle at 4% 96%, rgba(200, 255, 62, 0.10) 0%, transparent 46%),
+      var(--bg);
+  }
+  .slide--dark {
+    background:
+      radial-gradient(circle at 60% 45%, rgba(200, 255, 62, 0.12) 0%, transparent 40%),
+      var(--ink);
+    color: #efeadf;
+  }
+
+  .inner {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 1180px; margin: 0 auto;
+    padding: clamp(3.5rem, 8vh, 6rem) var(--page-padding);
+  }
+  .inner.center { display: flex; flex-direction: column; align-items: flex-start; }
+  .inner.grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem); align-items: center;
+  }
+  .inner.stack-v { display: flex; flex-direction: column; gap: clamp(1rem, 2.5vh, 1.8rem); }
+
+  /* Big faint slide number watermark */
+  .slide-num {
+    position: absolute; z-index: 1;
+    top: clamp(1rem, 3vh, 2.5rem); right: var(--page-padding);
+    font-family: var(--font-serif); font-style: italic; font-weight: 900;
+    font-size: clamp(4rem, 13vw, 12rem); line-height: 1;
+    letter-spacing: -0.04em; color: var(--bg-warm);
+    user-select: none; pointer-events: none;
+  }
+  .slide-num.dark { color: rgba(255, 255, 255, 0.06); }
+
+  /* ---- Slide 1 title ---- */
+  .title-name {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: var(--display-large); line-height: 0.88;
+    letter-spacing: -0.035em; margin: clamp(1rem, 2.5vh, 1.8rem) 0 0;
+    font-variation-settings: "opsz" 144;
+  }
+  .ital { font-style: italic; font-weight: 400; color: var(--ink); }
+  .title-rule { width: clamp(40px, 6vw, 72px); height: 2px; background: var(--acid-deep); margin: clamp(1rem, 2.5vh, 1.6rem) 0; }
+  .title-tagline {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: var(--tagline-size); line-height: 1.5; color: var(--muted); max-width: 42ch;
+  }
+  .title-tagline em { font-style: normal; font-weight: 500; color: var(--ink); }
+  .title-roles {
+    display: flex; align-items: center; gap: clamp(0.6rem, 1.2vw, 1rem);
+    margin-top: clamp(1.4rem, 3vh, 2.2rem);
+    font-family: var(--font-serif); font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.5rem); color: var(--ink);
+  }
+  .title-roles i { width: 5px; height: 5px; border-radius: 50%; background: var(--acid-deep); }
+  .slide-loc {
+    position: absolute; z-index: 2; bottom: clamp(1.5rem, 4vh, 2.6rem); left: var(--page-padding);
+    font-family: var(--font-mono); font-size: var(--label-size);
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ---- Shared typography ---- */
+  .heading {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: var(--h2, clamp(1.6rem, 4vw, 3.2rem)); line-height: 1;
+    letter-spacing: -0.025em; color: inherit; margin-top: 0.6rem;
+  }
+  .lede {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: var(--tagline-size); line-height: 1.55; color: var(--muted); max-width: 52ch;
+  }
+  .lede strong { font-style: normal; font-weight: 600; color: var(--ink); }
+  .slide--dark .lede { color: rgba(239, 234, 223, 0.72); }
+  .slide--dark .lede strong { color: #fff; }
+
+  .row-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .company { font-family: var(--font-serif); font-weight: 900; font-size: clamp(1.8rem, 4.5vw, 3.4rem); letter-spacing: -0.025em; line-height: 1; }
+  .company-sub { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.12em; color: var(--muted); }
+  .hr { width: 100%; height: 1px; background: linear-gradient(to right, var(--acid-deep), var(--rule) 55%); }
+  .role-title { font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: clamp(1.1rem, 2.4vw, 2rem); color: var(--ink); line-height: 1.15; }
+
+  .pill {
+    display: inline-block; width: fit-content;
+    font-family: var(--font-mono); font-size: var(--label-size);
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+    border: 1px solid var(--ink); padding: 0.35rem 0.7rem;
+  }
+  .pill-live { background: var(--acid); border-color: var(--acid); }
+
+  /* ---- Slide 2 disciplines ---- */
+  .disciplines { display: flex; flex-direction: column; gap: clamp(0.5rem, 1.2vh, 0.8rem); }
+  .disc {
+    display: flex; align-items: center; gap: clamp(0.9rem, 2vw, 1.4rem);
+    padding: clamp(0.7rem, 1.6vh, 1.1rem) clamp(1rem, 1.8vw, 1.4rem);
+    background: var(--card); border-left: 2px solid transparent;
+    transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .disc:hover { border-left-color: var(--acid-deep); transform: translateX(3px); }
+  .disc-y { font-family: var(--font-serif); font-style: italic; font-weight: 900; font-size: clamp(1.2rem, 2.4vw, 1.9rem); color: var(--acid-deep); min-width: 2.4ch; }
+  .disc-meta { display: flex; flex-direction: column; gap: 2px; }
+  .disc-name { font-weight: 600; font-size: var(--body-size); }
+  .disc-sub { font-size: clamp(0.72rem, 1vw, 0.85rem); color: var(--muted); }
+
+  /* ---- Cards (Santander) ---- */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.6vw, 1.2rem); }
+  .card {
+    background: var(--card); padding: clamp(1rem, 2vh, 1.4rem) clamp(1rem, 1.8vw, 1.4rem);
+    border-top: 2px solid var(--rule); display: flex; flex-direction: column; gap: 0.5rem;
+    transition: border-color 0.3s var(--ease);
+  }
+  .card:hover { border-top-color: var(--acid-deep); }
+  .card-role { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .card-title { font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.1rem, 1.8vw, 1.5rem); letter-spacing: -0.015em; }
+  .card-body { font-size: clamp(0.82rem, 1.1vw, 0.98rem); color: var(--muted); line-height: 1.5; }
+
+  /* ---- Slide 4 FRED ---- */
+  .project-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 9vw, 7rem); line-height: 0.9; letter-spacing: -0.04em; color: #f4f0e6; margin-top: 0.4rem; }
+  .slide:not(.slide--dark) .project-name { color: var(--ink); }
+  .project-full { font-family: var(--font-mono); font-size: clamp(0.8rem, 1.2vw, 1rem); letter-spacing: 0.08em; line-height: 1.6; color: rgba(239, 234, 223, 0.55); margin-top: 0.8rem; }
+  .metric { display: flex; align-items: baseline; gap: 0.7rem; margin-top: clamp(1rem, 2.5vh, 1.8rem); }
+  .metric-num { font-family: var(--font-serif); font-weight: 900; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--acid); line-height: 1; }
+  .metric-sub { font-size: var(--body-size); color: rgba(239, 234, 223, 0.7); max-width: 18ch; line-height: 1.3; }
+  .metric-sub em { color: #fff; font-style: normal; font-weight: 600; }
+  .facts { display: flex; flex-direction: column; gap: clamp(0.7rem, 1.6vh, 1.1rem); }
+  .fact { display: flex; align-items: flex-start; gap: 0.9rem; }
+  .fact-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--acid); flex-shrink: 0; margin-top: 0.55em; }
+  .fact-text { font-size: var(--body-size); line-height: 1.5; color: rgba(239, 234, 223, 0.72); }
+  .fact-text strong { color: #fff; font-weight: 600; }
+
+  /* ---- Slide 5 ProntoGPT ---- */
+  .arc { display: flex; align-items: center; gap: clamp(0.6rem, 1.5vw, 1.2rem); margin: clamp(1rem, 2.5vh, 1.6rem) 0; font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.7rem); flex-wrap: wrap; }
+  .arc-a { color: var(--muted); }
+  .arc-arrow { color: var(--acid-deep); }
+  .note { font-size: var(--body-size); color: var(--muted); line-height: 1.6; max-width: 46ch; }
+
+  /* ---- Slide 6 Accenture ---- */
+  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.6vw, 1.2rem); }
+  .proj { background: var(--card); padding: clamp(1rem, 2vh, 1.4rem) clamp(1rem, 1.8vw, 1.4rem); border-top: 2px solid var(--rule); display: flex; flex-direction: column; gap: 0.45rem; transition: border-color 0.3s var(--ease); }
+  .proj:hover { border-top-color: var(--acid-deep); }
+  .proj-year { font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: clamp(0.9rem, 1.5vw, 1.25rem); color: var(--acid-deep); }
+  .proj-role { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .proj-name { font-family: var(--font-serif); font-weight: 700; font-size: clamp(0.95rem, 1.5vw, 1.2rem); line-height: 1.15; }
+  .proj-desc { font-size: clamp(0.76rem, 1vw, 0.9rem); color: var(--muted); line-height: 1.5; flex: 1; }
+  .proj-outcome { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.06em; color: var(--acid-deep); }
+  .prior { font-size: clamp(0.78rem, 1vw, 0.9rem); font-style: italic; color: var(--muted); line-height: 1.5; }
+
+  /* ---- Slide 7 stack + contact ---- */
+  .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.6vw, 1.4rem); }
+  .stack-cat { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.12em; text-transform: uppercase; color: var(--acid-deep); display: block; padding-bottom: 0.4rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+  .stack-items { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .stack-items li { font-size: clamp(0.78rem, 1vw, 0.92rem); color: var(--muted); }
+  .contact-row { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 4vw, 3rem); padding-top: clamp(0.9rem, 2vh, 1.4rem); border-top: 1px solid var(--ink); margin-top: clamp(0.5rem, 1.5vh, 1rem); }
+  .contact-item { display: flex; flex-direction: column; gap: 0.25rem; }
+  .contact-label { font-family: var(--font-mono); font-size: var(--label-size); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .contact-val { font-family: var(--font-serif); font-size: clamp(1rem, 1.6vw, 1.3rem); font-weight: 500; width: fit-content; }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 860px) {
+    .inner.grid-2 { grid-template-columns: 1fr; gap: clamp(1.2rem, 3vh, 2rem); }
+    .cards, .projects, .stack-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .cards, .projects, .stack-grid { grid-template-columns: 1fr; }
+    .deck-nav { display: none; }
+    .title-tagline, .lede { max-width: none; }
+  }
+  @media (max-height: 680px) {
+    :root { --display-large: clamp(2.2rem, 8vw, 5rem); }
+    .inner { padding-top: clamp(3rem, 6vh, 4rem); padding-bottom: clamp(3rem, 6vh, 4rem); }
+  }
+</style>
+
+<script>
+  const deck = document.getElementById('deck');
+  const nav = document.getElementById('deckNav');
+  const progress = document.getElementById('deckProgress');
+  const slides = Array.from(document.querySelectorAll<HTMLElement>('.deck .slide'));
+
+  if (deck && nav && progress && slides.length) {
+    // Build nav dots
+    const dots: HTMLButtonElement[] = slides.map((slide, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('aria-label', slide.dataset.label || `Slide ${i + 1}`);
+      b.addEventListener('click', () => goTo(i));
+      nav.appendChild(b);
+      return b;
+    });
+
+    let current = 0;
+    const setCurrent = (i: number) => {
+      current = i;
+      dots.forEach((d, k) => d.classList.toggle('active', k === i));
+      progress.style.width = `${(i / Math.max(1, slides.length - 1)) * 100}%`;
+      // Tint the home link on dark slides
+      document.querySelector('.deck-home')?.classList.toggle('on-dark', slides[i].classList.contains('slide--dark'));
+    };
+
+    const goTo = (i: number) => {
+      const t = Math.max(0, Math.min(slides.length - 1, i));
+      slides[t].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && e.intersectionRatio >= 0.55) {
+            e.target.classList.add('visible');
+            setCurrent(slides.indexOf(e.target as HTMLElement));
+          }
+        });
+      },
+      { root: deck, threshold: [0.55] },
+    );
+    slides.forEach((s) => io.observe(s));
+
+    document.addEventListener('keydown', (e) => {
+      const tgt = e.target as HTMLElement;
+      if (tgt && tgt.matches('input, textarea, [contenteditable]')) return;
+      switch (e.key) {
+        case 'ArrowDown': case 'ArrowRight': case ' ': case 'PageDown':
+          e.preventDefault(); goTo(current + 1); break;
+        case 'ArrowUp': case 'ArrowLeft': case 'PageUp':
+          e.preventDefault(); goTo(current - 1); break;
+        case 'Home': e.preventDefault(); goTo(0); break;
+        case 'End': e.preventDefault(); goTo(slides.length - 1); break;
+      }
+    });
+
+    setCurrent(0);
+  }
+</script>
