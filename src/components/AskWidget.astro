@@ -1,6 +1,6 @@
 ---
 // Site assistant — header "Ask Assistant" trigger + right lateral panel.
-// Chats with /api/chat (Claude Haiku behind a Cloudflare Pages Function).
+// Chats with /api/chat (Claude Haiku behind the Cloudflare Worker, worker/index.ts).
 // Vanilla TS, Editorial Acid styling.
 
 const sparkPath =
@@ -57,14 +57,25 @@ const sparkPath =
     font-size: var(--label-size);
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink);
-    background: var(--bg);
-    border: 1px solid var(--ink);
+    color: var(--muted);
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
     padding: clamp(0.35rem, 0.9vh, 0.55rem) clamp(0.9rem, 1.5vw, 1.3rem);
     cursor: pointer;
-    transition: background 0.35s var(--ease);
+    transition:
+      background 0.35s var(--ease),
+      color 0.35s var(--ease),
+      border-color 0.35s var(--ease);
   }
-  .ask-launch:hover { background: var(--acid); }
+  .ask-launch .ask-spark { color: inherit; }
+  .ask-launch:hover,
+  .ask-launch:focus-visible {
+    background: var(--acid);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
   .ask-launch[aria-expanded='true'] { visibility: hidden; }
   @media (max-width: 720px) {
     .ask-launch-long { display: none; }
@@ -124,7 +135,7 @@ const sparkPath =
     padding: 1rem 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.05rem;
   }
   .ask-note {
     font-size: 0.78rem;
@@ -134,22 +145,60 @@ const sparkPath =
     align-self: center;
     margin-top: 0.6rem;
   }
-  .ask-msg {
+  /* Messages are created by the script at runtime, so they miss Astro's
+     scoping attribute — style them through .ask-log with :global(). */
+  .ask-log :global(.ask-msg) {
     font-size: clamp(0.85rem, 1.05vw, 0.95rem);
     line-height: 1.55;
-    white-space: pre-wrap;
     overflow-wrap: anywhere;
     max-width: 92%;
   }
-  .ask-msg-a { color: var(--ink); align-self: flex-start; }
-  .ask-msg-u {
+  .ask-log :global(.ask-msg-a) {
+    color: var(--ink);
+    align-self: flex-start;
+    border-left: 2px solid var(--acid);
+    padding-left: 0.8rem;
+  }
+  .ask-log :global(.ask-msg-u) {
     align-self: flex-end;
     background: var(--acid);
     color: var(--ink);
     padding: 0.4rem 0.65rem;
+    white-space: pre-wrap;
   }
-  .ask-msg-err { color: #a03418; font-family: var(--font-mono); font-size: 0.75rem; }
-  .ask-msg-a.thinking::after { content: '▌'; color: var(--acid-deep); animation: ask-blink 1s steps(2) infinite; }
+  .ask-log :global(.ask-msg-err) { color: #a03418; font-family: var(--font-mono); font-size: 0.75rem; }
+  .ask-log :global(.ask-msg-a.thinking)::after {
+    content: '▌';
+    color: var(--acid-deep);
+    animation: ask-blink 1s steps(2) infinite;
+  }
+  .ask-log :global(.ask-msg-a p) { margin: 0 0 0.6em; }
+  .ask-log :global(.ask-msg-a p:last-child) { margin-bottom: 0; }
+  .ask-log :global(.ask-msg-a ul),
+  .ask-log :global(.ask-msg-a ol) { margin: 0 0 0.6em; padding-left: 1.15em; }
+  .ask-log :global(.ask-msg-a li) { margin: 0.2em 0; }
+  .ask-log :global(.ask-msg-a li::marker) { color: var(--acid-deep); }
+  .ask-log :global(.ask-msg-a strong) { font-weight: 600; }
+  .ask-log :global(.ask-msg-a em) { font-style: italic; }
+  .ask-log :global(.ask-msg-a code) {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: var(--card);
+    padding: 0.08em 0.35em;
+  }
+  .ask-log :global(.ask-msg-a a) {
+    color: var(--acid-deep);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .ask-log :global(.ask-msg-a .ask-h) {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0.4em 0 0.45em;
+  }
   @keyframes ask-blink { 50% { opacity: 0; } }
 
   .ask-form {
@@ -209,13 +258,69 @@ const sparkPath =
       if (e.key === 'Escape' && panel.classList.contains('open')) setOpen(false);
     });
 
-    const addMsg = (cls: string, text: string): HTMLParagraphElement => {
-      const p = document.createElement('p');
-      p.className = `ask-msg ${cls}`;
-      p.textContent = text;
-      log.appendChild(p);
+    const addMsg = (cls: string, text: string): HTMLElement => {
+      const el = document.createElement(cls.includes('ask-msg-a') ? 'div' : 'p');
+      el.className = `ask-msg ${cls}`;
+      el.textContent = text;
+      log.appendChild(el);
       log.scrollTop = log.scrollHeight;
-      return p;
+      return el;
+    };
+
+    // Minimal markdown renderer for assistant turns: escape everything,
+    // then rebuild the safe subset (bold/italic/code/links/lists/headings).
+    const escapeHtml = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const inlineMd = (s: string) =>
+      s
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>')
+        .replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/)[^\s)]*)\)/g, (_m, text, url) =>
+          url.startsWith('/')
+            ? `<a href="${url}">${text}</a>`
+            : `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`,
+        );
+
+    const renderMd = (src: string): string => {
+      const out: string[] = [];
+      let para: string[] = [];
+      let list: string[] = [];
+      let listTag: 'ul' | 'ol' = 'ul';
+      const flushPara = () => {
+        if (para.length) out.push(`<p>${para.map(inlineMd).join('<br />')}</p>`);
+        para = [];
+      };
+      const flushList = () => {
+        if (list.length) out.push(`<${listTag}>${list.join('')}</${listTag}>`);
+        list = [];
+      };
+      for (const line of escapeHtml(src.trim()).split('\n')) {
+        const ul = /^\s*[-*] (.*)/.exec(line);
+        const ol = /^\s*\d+[.)] (.*)/.exec(line);
+        const h = /^#{1,4} (.*)/.exec(line);
+        if (ul || ol) {
+          flushPara();
+          const tag = ul ? 'ul' : 'ol';
+          if (tag !== listTag) flushList();
+          listTag = tag;
+          list.push(`<li>${inlineMd((ul ?? ol)![1])}</li>`);
+        } else if (!line.trim()) {
+          flushPara();
+          flushList();
+        } else if (h) {
+          flushPara();
+          flushList();
+          out.push(`<p class="ask-h">${inlineMd(h[1])}</p>`);
+        } else {
+          flushList();
+          para.push(line);
+        }
+      }
+      flushPara();
+      flushList();
+      return out.join('');
     };
 
     form.addEventListener('submit', async (e) => {
@@ -254,7 +359,7 @@ const sparkPath =
             try { event = JSON.parse(line.slice(6)); } catch { continue; }
             if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
               answer += event.delta.text;
-              out.textContent = answer;
+              out.innerHTML = renderMd(answer);
               log.scrollTop = log.scrollHeight;
             }
             if (event.type === 'error') throw new Error(event.error?.message ?? 'stream error');
@@ -267,8 +372,8 @@ const sparkPath =
         addMsg(
           'ask-msg-err',
           err instanceof Error && err.message === '429'
-            ? 'Too many questions too quickly — give it a minute.'
-            : 'Something went wrong — try again in a moment.',
+            ? 'Too many questions too quickly. Give it a minute.'
+            : 'Something went wrong. Try again in a moment.',
         );
       } finally {
         out.classList.remove('thinking');

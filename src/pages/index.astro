@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro';
 
 const nav = [
-  { n: '01', title: 'Curriculum', href: '/cv/', desc: 'An animated walk through 8+ years across the data lifecycle.' },
+  { n: '01', title: 'Talking', href: '/talking/', desc: 'Public talks & live sessions, out loud and on record.' },
   { n: '02', title: 'Writing', href: '/writing/', desc: 'Essays & field notes, and deeper research write-ups.' },
-  { n: '03', title: 'Teaching', href: '/teaching/', desc: 'Courses & workshops — real-time data and AI enablement.' },
-  { n: '04', title: 'Contact', href: '/contact/', desc: 'Email, socials, and how to reach me.' },
+  { n: '03', title: 'Teaching', href: '/teaching/', desc: 'Courses & workshops, taught from first principles.' },
+  { n: '04', title: 'CV', href: '/cv/', desc: 'Walk through 8+ years across the data lifecycle.' },
+  { n: '05', title: 'Contact', href: '/contact/', desc: 'Email, socials, and how to reach me.' },
 ];
 ---
 
@@ -35,7 +36,7 @@ const nav = [
 
         <p class="hero-tagline reveal d3">
           <em>AI Engineer</em> &amp; <em>Technical Product Manager</em>. Eight years
-          bridging deep technical execution and business strategy — shipping
+          bridging deep technical execution and business strategy, shipping
           end-to-end <span class="marker">data &amp; AI</span> across AWS, Azure and GCP.
         </p>
 
@@ -56,7 +57,7 @@ const nav = [
 
     <nav class="index" aria-label="Site sections">
       {nav.map((item, i) => (
-        <a class={`index-item reveal d${5 + i}`} href={item.href}>
+        <a class={`index-item reveal d${4 + i}`} href={item.href}>
           <span class="index-n">{item.n}</span>
           <span class="index-body">
             <span class="index-title">{item.title}</span>
@@ -68,7 +69,13 @@ const nav = [
     </nav>
 
     <footer class="rule-bottom">
-      <span><span class="strong">Carlos Alberto Haro López</span> — AI Engineer &amp; Technical PM</span>
+      <span class="foot-social">
+        <a class="link" href="https://github.com/haro-ca" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="foot-sep">·</span>
+        <a class="link" href="https://linkedin.com/in/h1sort" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span class="foot-sep">·</span>
+        <a class="link" href="https://x.com/h1sort" target="_blank" rel="noopener noreferrer">X</a>
+      </span>
       <a class="link" href="mailto:carlos@h1sort.com">carlos@h1sort.com</a>
     </footer>
   </main>
@@ -432,7 +439,7 @@ const nav = [
     z-index: 2;
     --ip: clamp(1.1rem, 1.8vw, 1.9rem);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     border-top: 1px solid var(--ink);
   }
   .index-item {
@@ -451,7 +458,7 @@ const nav = [
     position: absolute;
     top: -1px; left: 0;
     width: 0; height: 2px;
-    background: var(--acid-deep);
+    background: var(--acid);
     transition: width 0.4s var(--ease);
   }
   .index-item:hover::before { width: 100%; }
@@ -468,7 +475,16 @@ const nav = [
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.05;
+    /* marker-style sweep on hover (same recipe as .marker in global.css) */
+    width: fit-content;
+    background: linear-gradient(180deg, transparent 58%, var(--acid) 58%, var(--acid) 92%, transparent 92%);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    padding: 0 0.08em;
+    margin-left: -0.08em;
+    transition: background-size 0.5s var(--ease);
   }
+  .index-item:hover .index-title { background-size: 100% 100%; }
   .index-desc {
     font-size: clamp(0.78rem, 1vw, 0.9rem);
     color: var(--muted);
@@ -484,6 +500,9 @@ const nav = [
   }
   .index-item:hover .index-arrow { transform: translate(4px, -4px); }
 
+  .foot-social { display: inline-flex; align-items: center; gap: 0.9em; }
+  .foot-sep { color: var(--muted-soft); }
+
   /* --- Responsive --- */
   @media (max-width: 900px) {
     .hero-content { grid-template-columns: 1fr; gap: clamp(1.5rem, 4vh, 2.5rem); }
@@ -492,7 +511,8 @@ const nav = [
     .index-item { padding-left: var(--ip); padding-right: var(--ip); border-right: 1px solid var(--rule); }
     .index-item:nth-child(odd) { padding-left: 0; }
     .index-item:nth-child(even) { padding-right: 0; border-right: none; }
-    .index-item:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+    .index-item:nth-child(-n+4) { border-bottom: 1px solid var(--rule); }
+    .index-item:last-child { grid-column: 1 / -1; padding-left: 0; padding-right: 0; border-right: none; }
   }
   @media (max-width: 560px) {
     .index { grid-template-columns: 1fr; }
