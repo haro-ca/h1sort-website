@@ -475,9 +475,16 @@ const nav = [
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.05;
-    transition: color 0.3s var(--ease);
+    /* marker-style sweep on hover (same recipe as .marker in global.css) */
+    width: fit-content;
+    background: linear-gradient(180deg, transparent 58%, var(--acid) 58%, var(--acid) 92%, transparent 92%);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    padding: 0 0.08em;
+    margin-left: -0.08em;
+    transition: background-size 0.5s var(--ease);
   }
-  .index-item:hover .index-title { color: var(--acid-deep); }
+  .index-item:hover .index-title { background-size: 100% 100%; }
   .index-desc {
     font-size: clamp(0.78rem, 1vw, 0.9rem);
     color: var(--muted);
