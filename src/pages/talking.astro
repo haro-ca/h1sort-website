@@ -205,8 +205,17 @@ const talks = [
     font-size: clamp(1.15rem, 2vw, 1.7rem); letter-spacing: -0.02em;
     margin: 0;
   }
-  .talk-title a { color: inherit; transition: color 0.3s var(--ease); }
-  .talk-title a:hover { color: var(--acid-deep); }
+  /* marker-style sweep on row hover (same recipe as .marker in global.css) */
+  .talk-title a {
+    color: inherit;
+    background: linear-gradient(180deg, transparent 58%, var(--acid) 58%, var(--acid) 92%, transparent 92%);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    padding: 0 0.08em;
+    margin-left: -0.08em;
+    transition: background-size 0.5s var(--ease);
+  }
+  .talk:hover .talk-title a { background-size: 100% 100%; }
   .talk-meta {
     font-family: var(--font-mono);
     font-size: var(--label-size);
