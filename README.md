@@ -34,7 +34,7 @@ npm run build      # static build -> dist/
 npm run preview    # preview the production build
 ```
 
-A successful `npm run build` generates **7 pages + a sitemap**.
+A successful `npm run build` generates **8 pages + a sitemap**.
 
 ---
 
@@ -80,15 +80,16 @@ h1sort-website/
 
 ```
 /                 Landing
-├── /cv           Curriculum — animated slide deck
+├── /talking      Public talks, live sessions & threads
 ├── /writing      Writing hub
 │   ├── /blog     Notes & essays  (markdown — planned)
 │   └── /research Projects & write-ups (matmul, systems)
 ├── /teaching     Courses & workshops (Real-Time Data Processing)
+├── /cv           CV — animated slide deck
 └── /contact      Email · LinkedIn · GitHub · X · CV PDF · location
 ```
 
-The landing's section index links to **Curriculum · Writing · Teaching · Contact**. Blog and Research live *under* Writing (each links back to `/writing`).
+The landing's section index links to **Talking · Writing · Teaching · CV · Contact**. Blog and Research live *under* Writing (each links back to `/writing`).
 
 ---
 
@@ -116,7 +117,7 @@ Most content is defined as typed arrays in each page's frontmatter — edit the 
 - **Teaching** — `src/pages/teaching.astro`: `pipeline`, `stack`, `stats`, `repo`.
 - **Contact** — `src/pages/contact.astro`: `channels`.
 - **Landing nav** — `src/pages/index.astro`: `nav`.
-- **CV PDF** — `src/data/cv.md`, rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` on every build (`prebuild` hook; needs Chrome locally or `CHROME_PATH`). Edit the markdown — the PDF is never touched by hand. The PDF is committed: Cloudflare Pages CI has no Chrome, so the prebuild skips there and the committed file ships. Regenerate + commit it whenever `cv.md` changes.
+- **CV PDF** — `src/data/cv.md`, rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` on every build (`prebuild` hook; needs Chrome locally or `CHROME_PATH`). Edit the markdown — the PDF is never touched by hand. The PDF is committed: CI (Workers Builds) has no Chrome, so the prebuild skips there and the committed file ships. Regenerate + commit it whenever `cv.md` changes.
 
 Blog (Markdown content collections + RSS) and the Research write-ups are planned next.
 

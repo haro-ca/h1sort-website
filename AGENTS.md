@@ -10,7 +10,7 @@ The personal website for **Carlos Alberto Haro** at **h1sort.com** — an Astro 
 
 ```bash
 npm run dev      # dev server (http://localhost:4321)
-npm run build    # prebuild: src/data/cv.md -> public/cv.pdf, then static build -> dist/  (MUST pass; 7 pages + sitemap)
+npm run build    # prebuild: src/data/cv.md -> public/cv.pdf, then static build -> dist/  (MUST pass; 8 pages + sitemap)
 npm run preview  # preview the production build
 ```
 
@@ -40,15 +40,16 @@ Always run `npm run build` after changes to verify the site still generates.
 ## Information architecture
 
 ```
-/  ├── /cv                 (renders <CvDeck/>)
+/  ├── /talking            public talks, live sessions & threads
    ├── /writing            hub → /blog + /research
    │     ├── /blog         placeholder (markdown blog planned)
    │     └── /research     placeholder (matmul + systems)
    ├── /teaching           Real-Time Data Processing course
+   ├── /cv                 (renders <CvDeck/>)
    └── /contact
 ```
 
-Landing nav = **Curriculum · Writing · Teaching · Contact**. Blog & Research sit under Writing and link back to `/writing`. The `real-time-data-processing-class` belongs to **Teaching**, not Research.
+Landing nav = **Talking · Writing · Teaching · CV · Contact** (01–05; inner-page headers carry the number). Blog & Research sit under Writing and link back to `/writing`. The `real-time-data-processing-class` belongs to **Teaching**, not Research. The landing footer is a social strip (GitHub · LinkedIn · X + email), not a signature.
 
 ## Design system cheatsheet
 
@@ -71,6 +72,7 @@ Page-scoped styles go in the page's own `<style>` block. Reuse tokens; don't har
 | Content | File · array |
 |---|---|
 | Landing nav | `src/pages/index.astro` · `nav` |
+| Talks | `src/pages/talking.astro` · `talks` |
 | CV slides | `src/components/CvDeck.astro` · `disciplines`, `santanderCards`, `fredFacts`, `accenture`, `stack`, `contact` |
 | Teaching | `src/pages/teaching.astro` · `pipeline`, `stack`, `stats`, `repo` |
 | Contact | `src/pages/contact.astro` · `channels` |
@@ -94,7 +96,7 @@ Gotchas:
 
 ## Definition of done
 
-- `npm run build` passes with no errors (7 pages + sitemap).
+- `npm run build` passes with no errors (8 pages + sitemap).
 - Layout fits the viewport where intended and reflows cleanly at mobile widths.
 - Animations are subtle and reduced-motion-safe.
 - No secrets, no phone number, no brief/screenshot committed.
