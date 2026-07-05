@@ -17,8 +17,8 @@ An editorial, animation-rich site built with [Astro](https://astro.build/) and d
 | Styling | Plain CSS + a design-system stylesheet (`src/styles/global.css`) with `:root` design tokens |
 | Fonts | Self-hosted woff2 (`public/fonts/` + `src/styles/fonts.css`) — Fraunces, IBM Plex Mono, Work Sans. Re-mirror with `node scripts/mirror-fonts.mjs` if families/weights change |
 | SEO | Per-page meta + Open Graph via the `Base` layout; `@astrojs/sitemap` |
-| Hosting | Cloudflare Pages (project `h1sort`) |
-| Assistant | "Ask" chat widget → Pages Function `/api/chat` → Claude Haiku (`claude-haiku-4-5`), streaming SSE. Grounded in `src/data/cv.md` via generated `functions/site-context.ts` |
+| Hosting | Cloudflare Workers — git-connected Worker `h1sort-website` (static assets from `dist/` + `/api/*` handled by `worker/index.ts`) |
+| Assistant | "Ask Assistant" widget → Worker route `/api/chat` (`worker/index.ts`) → Claude Haiku (`claude-haiku-4-5`), streaming SSE. Grounded in `src/data/cv.md` via generated `worker/site-context.ts` |
 | Runtime | Node 24, npm |
 
 No client framework — interactivity (the sorting-canvas hero, the CV slide deck) is vanilla TypeScript in Astro `<script>` blocks.
@@ -43,7 +43,10 @@ A successful `npm run build` generates **7 pages + a sitemap**.
 ```
 h1sort-website/
 ├── astro.config.mjs        # site url, static output, sitemap
+├── wrangler.jsonc           # Worker config: assets from dist/, /api/* worker-first
 ├── tsconfig.json
+├── worker/
+│   └── index.ts             # /api/chat — streams Claude Haiku (site assistant)
 ├── scripts/
 │   └── cv-pdf.mjs           # renders src/data/cv.md -> public/cv.pdf (prebuild hook)
 ├── assets/
@@ -121,22 +124,15 @@ Blog (Markdown content collections + RSS) and the Research write-ups are planned
 
 ## Deployment
 
-Deployed to **Cloudflare Pages** (project `h1sort`, production branch `main`), **git-connected**: pushing to `main` triggers a CI build (`npm run build`, output `dist/`) and deploy.
+Deployed to a **git-connected Cloudflare Worker** (`h1sort-website`, Workers Builds): pushing to `main` triggers CI (`npm run build`, then `wrangler deploy` per `wrangler.jsonc`). Static assets are served from `dist/`; only `/api/*` invokes the worker script.
 
 CI has no Chrome, so it can't regenerate the CV PDF — the committed `public/cv.pdf` ships as-is. After editing `src/data/cv.md`, run `npm run build` locally and commit the regenerated PDF with your change.
 
-The site assistant needs the `ANTHROPIC_API_KEY` secret on the Pages project (`wrangler pages secret put ANTHROPIC_API_KEY --project-name h1sort`); locally it reads `.dev.vars` (gitignored). Test functions locally with `npm run build && npx wrangler pages dev dist`.
+The site assistant needs the `ANTHROPIC_API_KEY` secret on the Worker (`npx wrangler versions secret put ANTHROPIC_API_KEY --name h1sort-website`); locally it reads `.dev.vars` (gitignored). Test the full site + assistant locally with `npm run build && npx wrangler dev` — the Astro dev server (`npm run dev`) does NOT serve `/api/chat`.
 
-Manual deploy (fallback, bypasses CI):
+Manual deploy (fallback, bypasses CI): `npm run build && npx wrangler deploy`
 
-```bash
-npm run build
-wrangler pages deploy dist --project-name h1sort --branch main
-```
-
-Custom domains `h1sort.com` and `www.h1sort.com` are attached to the Pages project (DNS + SSL auto-provisioned by Cloudflare, since the zone lives in the same account).
-
-> Note: the installed wrangler has **no `pages domain` subcommand** — custom domains are managed via the Cloudflare dashboard or the Pages domains API. See `AGENTS.md`.
+Custom domains `h1sort.com` and `www.h1sort.com` are attached to the Worker (Settings → Domains & Routes in the dashboard; DNS + SSL auto-provisioned since the zone lives in the same account).
 
 ---
 

@@ -2,15 +2,26 @@
 // Site assistant — header "Ask Assistant" trigger + right lateral panel.
 // Chats with /api/chat (Claude Haiku behind a Cloudflare Pages Function).
 // Vanilla TS, Editorial Acid styling.
+
+const sparkPath =
+  'm12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z';
 ---
 
 <button class="ask-launch" id="askLaunch" aria-expanded="false" aria-controls="askPanel">
-  <span class="ask-spark" aria-hidden="true">✦</span> Ask <span class="ask-launch-long">Assistant</span>
+  <svg class="ask-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d={sparkPath} /><path d="M20 3v4" /><path d="M22 5h-4" />
+  </svg>
+  Ask <span class="ask-launch-long">Assistant</span>
 </button>
 
 <section class="ask-panel" id="askPanel" role="dialog" aria-label="Site assistant" aria-hidden="true">
   <header class="ask-head">
-    <span class="ask-title"><span class="ask-spark" aria-hidden="true">✦</span> Assistant</span>
+    <span class="ask-title">
+      <svg class="ask-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d={sparkPath} /><path d="M20 3v4" /><path d="M22 5h-4" />
+      </svg>
+      Assistant
+    </span>
     <button class="ask-close" id="askClose" aria-label="Close assistant">×</button>
   </header>
   <div class="ask-log" id="askLog" aria-live="polite">
@@ -31,7 +42,7 @@
 </section>
 
 <style>
-  .ask-spark { color: var(--acid-deep); }
+  .ask-spark { width: 1.1em; height: 1.1em; color: var(--ink); flex-shrink: 0; }
 
   .ask-launch {
     position: fixed;
@@ -225,7 +236,7 @@
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ messages: history }),
         });
-        if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok || !res.body) throw new Error(String(res.status));
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
@@ -250,10 +261,15 @@
           }
         }
         history.push({ role: 'assistant', content: answer });
-      } catch {
+      } catch (err) {
         out.remove();
         history.pop();
-        addMsg('ask-msg-err', 'Something went wrong — try again in a moment.');
+        addMsg(
+          'ask-msg-err',
+          err instanceof Error && err.message === '429'
+            ? 'Too many questions too quickly — give it a minute.'
+            : 'Something went wrong — try again in a moment.',
+        );
       } finally {
         out.classList.remove('thinking');
         busy = false;

@@ -47,4 +47,4 @@ WEBSITE_BRIEF.md
 h1sort.png
 
 # Generated at build time from src/data/cv.md (see scripts/build-chat-context.mjs)
-functions/site-context.ts
+worker/site-context.ts
