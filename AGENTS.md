@@ -23,6 +23,7 @@ Always run `npm run build` after changes to verify the site still generates.
 - **No client frameworks.** Keep interactivity in vanilla TS `<script>` blocks inside `.astro` files.
 - **Respect motion prefs.** Any animation must degrade under `prefers-reduced-motion` (global CSS already dampens transitions/animations; canvas/JS effects must check `matchMedia('(prefers-reduced-motion: reduce)')`).
 - **Content lives in frontmatter data arrays**, not inline in markup. Edit the data.
+- **No em dashes in copy**, anywhere: pages, `cv.md`, meta descriptions, the assistant's system prompt. Use commas, colons, periods, or the site's `·` separator; en dashes only for numeric ranges.
 - **Never reintroduce the phone number.** It was intentionally removed for privacy. Contact = email + LinkedIn (`linkedin.com/in/h1sort`) + GitHub (`github.com/haro-ca`) + X (`x.com/h1sort`) + CV PDF + location only.
 - **The CV PDF is generated, never hand-edited.** `src/data/cv.md` is the single source; `scripts/cv-pdf.mjs` renders it to `public/cv.pdf` via the `prebuild` npm hook — needs Chrome locally, or set `CHROME_PATH`. The PDF is **committed** because CI (Workers Builds) has no Chrome and reuses it (prebuild skips with a warning there). After editing `src/data/cv.md`, always run a local build and commit the regenerated `public/cv.pdf` alongside it.
 - **`WEBSITE_BRIEF.md` and `h1sort.png` are gitignored / local-only.** They are the source brief & a CV screenshot — never publish or commit them.

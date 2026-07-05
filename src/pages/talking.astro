@@ -26,7 +26,7 @@ const talks = [
   {
     title: 'What is Data Science',
     meta: 'Interview',
-    desc: 'What data science actually is and how to begin the learning journey — starting with R’s tidyverse; highlights David Robinson’s screencasts as high-signal content.',
+    desc: 'What data science actually is and how to begin the learning journey, starting with R’s tidyverse; highlights David Robinson’s screencasts as high-signal content.',
     href: 'https://t.co/AdiPMKi89Z',
     cta: 'Watch',
   },
@@ -90,8 +90,8 @@ const talks = [
 ---
 
 <Base
-  title="Talking — Carlos Alberto Haro"
-  description="Public talks, live sessions and threads by Carlos Alberto Haro — databases, OLAP vs OLTP, DuckDB, data science, the modern data stack, and product."
+  title="Talking · Carlos Alberto Haro"
+  description="Public talks, live sessions and threads by Carlos Alberto Haro: databases, OLAP vs OLTP, DuckDB, data science, the modern data stack, and product."
   path="/talking"
 >
   <section class="page">
@@ -112,7 +112,7 @@ const talks = [
       <span class="acid-label reveal d1">Talking</span>
       <h1 class="page-title reveal d2">Out loud, <span class="ital">on record</span>.</h1>
       <p class="page-lede reveal d3">
-        Public talks, live sessions and threads — databases, data science,
+        Public talks, live sessions and threads: databases, data science,
         and the shape of the modern data stack.
       </p>
 
@@ -122,7 +122,9 @@ const talks = [
             <span class="talk-n">{String(i + 1).padStart(2, '0')}</span>
             <div class="talk-body">
               <div class="talk-top">
-                <h2 class="talk-title">{t.title}</h2>
+                <h2 class="talk-title">
+                  <a href={t.href} target="_blank" rel="noopener noreferrer">{t.title}</a>
+                </h2>
                 <span class="talk-meta">{t.meta}</span>
               </div>
               <p class="talk-desc">{t.desc}</p>
@@ -203,6 +205,8 @@ const talks = [
     font-size: clamp(1.15rem, 2vw, 1.7rem); letter-spacing: -0.02em;
     margin: 0;
   }
+  .talk-title a { color: inherit; transition: color 0.3s var(--ease); }
+  .talk-title a:hover { color: var(--acid-deep); }
   .talk-meta {
     font-family: var(--font-mono);
     font-size: var(--label-size);
