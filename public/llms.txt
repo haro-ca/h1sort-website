@@ -1,0 +1,27 @@
+# Carlos Alberto Haro (h1sort.com)
+
+> Personal website of Carlos Alberto Haro López, AI Engineer & Technical Product Manager at Santander AI in Mexico City. 8+ years designing and shipping end-to-end data & AI solutions across AWS, Azure, and GCP: production AI agents, RAG systems, MLOps, and data platforms.
+
+Highlights: FRED, a structured fraud-analysis agent in production at Santander Mexico (10k credit petitions analyzed in 1 hour, replacing a ~1k-per-week manual bottleneck); a cloud RAG chatbot for the branch network and contact center; ProntoGPT, an internal agent harness that influenced org-wide AI access; AI teaching for 300+ employees across 6 bank areas. Previously Manager at Accenture Data & AI (cloud MLOps frameworks, analytics platform assessments, omnichannel data models).
+
+## Pages
+
+- [CV](https://h1sort.com/cv/): animated walk through 8+ years across the full data lifecycle
+- [CV as PDF](https://h1sort.com/cv.pdf): downloadable one-pager
+- [Talking](https://h1sort.com/talking/): public talks, live sessions, and threads on databases, OLAP vs OLTP, DuckDB, data science, and the modern data stack
+- [Teaching](https://h1sort.com/teaching/): Real-Time Data Processing, a 12-lesson hands-on course (OLTP, CDC, Kafka, stream processing, real-time OLAP, API)
+- [Writing](https://h1sort.com/writing/): blog and research write-ups (in progress)
+- [Contact](https://h1sort.com/contact/): email and socials
+
+## Contact
+
+- Email: carlos@h1sort.com
+- GitHub: https://github.com/haro-ca
+- LinkedIn: https://www.linkedin.com/in/h1sort
+- X: https://x.com/h1sort
+- Location: Mexico City, MX
+
+## Notes
+
+- The site has an on-page AI assistant that answers questions about Carlos; it is scoped to this site only.
+- Course repository: https://github.com/haro-ca/real-time-data-processing-class
