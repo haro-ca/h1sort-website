@@ -90,11 +90,6 @@ img, svg, canvas { display: block; max-width: 100%; }
   background: var(--acid);
   padding: clamp(0.35rem, 0.8vh, 0.6rem) clamp(0.7rem, 1.2vw, 1rem);
 }
-.acid-label::before {
-  content: '●';
-  font-size: 0.7em;
-  color: var(--ink);
-}
 
 .mono-label {
   font-family: var(--font-mono);
