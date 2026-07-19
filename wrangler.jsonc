@@ -8,6 +8,14 @@
     "directory": "dist",
     "run_worker_first": ["/api/*"]
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "h1sort-chat",
+      "database_id": "ac2b339f-8f2a-40ca-90d1-e4ec963c555c",
+      "migrations_dir": "migrations"
+    }
+  ],
   "observability": {
     "enabled": true
   }
