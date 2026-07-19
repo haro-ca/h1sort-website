@@ -7,11 +7,30 @@ import { tmpdir } from 'node:os';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { marked } from 'marked';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(root, 'src/data/cv.md');
 const OUT = join(root, 'public/cv.pdf');
+// Committed fingerprint of the inputs (cv.md + this script). Chrome stamps a
+// timestamp + random ID into every PDF, so without this check each build
+// rewrites cv.pdf with new bytes and bloats git history for no reason.
+const HASH_FILE = join(root, 'src/data/cv.pdf.hash');
+
+const self = fileURLToPath(import.meta.url);
+const inputHash = createHash('sha256')
+  .update(await readFile(SRC))
+  .update(await readFile(self))
+  .digest('hex');
+
+if (existsSync(OUT) && existsSync(HASH_FILE)) {
+  const prev = (await readFile(HASH_FILE, 'utf8')).trim();
+  if (prev === inputHash) {
+    console.log('cv-pdf: inputs unchanged — keeping existing public/cv.pdf.');
+    process.exit(0);
+  }
+}
 
 const CHROME_CANDIDATES = [
   process.env.CHROME_PATH,
@@ -122,6 +141,7 @@ try {
   ]);
   const { size } = await stat(OUT);
   if (size < 10_000) throw new Error(`output suspiciously small (${size} bytes)`);
+  await writeFile(HASH_FILE, inputHash + '\n');
   console.log(`cv-pdf: wrote public/cv.pdf (${(size / 1024).toFixed(0)} KB)`);
 } finally {
   await rm(tmp, { recursive: true, force: true });

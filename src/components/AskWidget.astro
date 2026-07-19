@@ -245,6 +245,19 @@ const sparkPath =
     const history: { role: 'user' | 'assistant'; content: string }[] = [];
     let busy = false;
 
+    // One conversation per tab session; lets the worker group turns in D1.
+    const conversationId = (() => {
+      try {
+        const existing = sessionStorage.getItem('ask-conversation-id');
+        if (existing) return existing;
+        const id = crypto.randomUUID();
+        sessionStorage.setItem('ask-conversation-id', id);
+        return id;
+      } catch {
+        return crypto.randomUUID();
+      }
+    })();
+
     const setOpen = (open: boolean) => {
       panel.classList.toggle('open', open);
       panel.setAttribute('aria-hidden', String(!open));
@@ -339,7 +352,7 @@ const sparkPath =
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ messages: history }),
+          body: JSON.stringify({ messages: history, conversationId }),
         });
         if (!res.ok || !res.body) throw new Error(String(res.status));
 
