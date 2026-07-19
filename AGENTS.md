@@ -37,7 +37,32 @@ Always run `npm run build` after changes to verify the site still generates.
 - `src/components/ComingSoon.astro` — reusable placeholder. Props: `section`, `title`, `blurb`, `tag?`, `back?`, `backLabel?`, `status?`.
 - `src/styles/global.css` — design tokens (`:root`) + shared utilities.
 - `src/components/AskWidget.astro` — "Ask Assistant" pill fixed top-center that opens a right lateral chat panel (rendered by Base on every page). Talks to `/api/chat`, handled by `worker/index.ts` — a Cloudflare Worker route that streams Claude Haiku (`claude-haiku-4-5`) answers. Grounding context is generated into `worker/site-context.ts` (gitignored) from `src/data/cv.md` by `scripts/build-chat-context.mjs` (prebuild). The `ANTHROPIC_API_KEY` secret lives on the Worker / `.dev.vars` locally — NEVER in client code or the repo. Test with `npm run build && npx wrangler dev` (the Astro dev server does **not** serve `/api/chat`).
-- **Conversations are logged to D1** (database `h1sort-chat`, binding `DB` in `wrangler.jsonc`). The widget sends a per-tab `conversationId` (sessionStorage UUID); the worker tees the SSE stream and persists each user/assistant turn via `ctx.waitUntil`, fail-open (a D1 error never breaks the chat; no `conversationId` = no logging). Schema lives in `migrations/` — apply with `npx wrangler d1 migrations apply h1sort-chat --local` (dev) and `--remote` (prod). Inspect with `npx wrangler d1 execute h1sort-chat --remote --command "SELECT ..."`.
+- **Conversations are logged to D1** (database `h1sort-chat`, binding `DB` in `wrangler.jsonc`). The widget sends a per-tab `conversationId` (sessionStorage UUID); the worker tees the SSE stream and persists each user/assistant turn via `ctx.waitUntil`, fail-open (a D1 error never breaks the chat; no `conversationId` = no logging). Schema lives in `migrations/` — apply with `npx wrangler d1 migrations apply h1sort-chat --local` (dev) and `--remote` (prod).
+
+## Assistant conversation analytics
+
+When asked for analytics on assistant conversations, query the **remote** D1 database (`--remote`; local is just dev-test noise). Schema (`migrations/0001_chat_tables.sql`):
+
+- `conversations(id TEXT PK, created_at, updated_at, country, path)` — one row per widget tab session; `country` is the CF-IPCountry code, `path` the page the question was asked from, timestamps are UTC.
+- `messages(id INTEGER PK autoincrement, conversation_id, role 'user'|'assistant', content, created_at)` — `id` order = chronological order.
+
+```bash
+# Overview: conversations with turn counts, newest first
+npx wrangler d1 execute h1sort-chat --remote --json --command \
+  "SELECT c.id, c.created_at, c.country, c.path, count(m.id) AS turns \
+   FROM conversations c LEFT JOIN messages m ON m.conversation_id = c.id \
+   GROUP BY c.id ORDER BY c.created_at DESC"
+
+# Read one conversation in full
+npx wrangler d1 execute h1sort-chat --remote --json --command \
+  "SELECT role, content, created_at FROM messages WHERE conversation_id = '<id>' ORDER BY id"
+
+# All user questions (what visitors actually ask)
+npx wrangler d1 execute h1sort-chat --remote --json --command \
+  "SELECT content, created_at FROM messages WHERE role = 'user' ORDER BY id DESC"
+```
+
+Useful angles: volume over time (`strftime('%Y-%m-%d', created_at)` group-bys), breakdown by `country` / `path`, conversation depth (turns per conversation), and reading the `role='user'` messages to summarize recurring question themes. For anything heavier, `npx wrangler d1 export h1sort-chat --remote --output /tmp/chat.sql` gives a full dump to load into local SQLite (do not commit dumps; conversation content stays out of the repo). Read-only analysis: never UPDATE/DELETE production rows unless explicitly asked.
 
 ## Information architecture
 
