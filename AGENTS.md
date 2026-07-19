@@ -104,6 +104,7 @@ Page-scoped styles go in the page's own `<style>` block. Reuse tokens; don't har
 | Teaching | `src/pages/teaching.astro` · `pipeline`, `stack`, `stats`, `repo` |
 | Contact | `src/pages/contact.astro` · `channels` |
 | CV PDF | `src/data/cv.md` — rendered to `public/cv.pdf` by `scripts/cv-pdf.mjs` (prebuild) |
+| Agent-facing summary | `public/llms.txt` — hand-maintained markdown summary of the site for AI agents; update it when pages, roles, or contact info change. `public/robots.txt` carries the `Content-Signal` line (ai-train/search/ai-input all yes) |
 
 ## Deployment
 
